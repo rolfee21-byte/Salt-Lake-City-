@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food & Drink — SLC Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .price { font-family: var(--font-sans); font-weight: 700; color: var(--green); font-size: 0.9rem; }
+    .fav-btn { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--gray-300); transition: var(--transition); padding: 0.2rem; }
+    .fav-btn:hover, .fav-btn.favorited { color: var(--secondary); }
+    .restaurant-meta { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="container">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">🏔️</div> SLC Explorer</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="outdoors.html">Outdoors</a>
+      <a href="neighborhoods.html">Neighborhoods</a>
+      <a href="food.html" class="active">Food & Drink</a>
+      <a href="events.html">Events</a>
+      <a href="map.html">Map</a>
+      <a href="plan.html" class="nav-cta">Plan Visit</a>
+    </div>
+    <button class="nav-toggle"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg" style="background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 50%, #ef4444 100%);"></div>
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right" style="font-size:0.7rem;"></i> Food & Drink</div>
+    <h1>🍽️ Food & Drink in SLC</h1>
+    <p>From James Beard-nominated chefs to legendary hole-in-the-wall taquerias — SLC's culinary scene punches way above its weight.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <div class="filter-bar reveal">
+      <div class="search-input-wrap">
+        <span class="icon"><i class="fas fa-search"></i></span>
+        <input type="text" class="search-input" placeholder="Search restaurants…">
+      </div>
+      <div class="filter-chips">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="finedining">Fine Dining</button>
+        <button class="chip" data-filter="casual">Casual</button>
+        <button class="chip" data-filter="brunch">Brunch</button>
+        <button class="chip" data-filter="mexican">Mexican</button>
+        <button class="chip" data-filter="asian">Asian</button>
+        <button class="chip" data-filter="brewery">Brewery</button>
+        <button class="chip" data-filter="vegan">Vegan</button>
+      </div>
+    </div>
+
+    <div class="cards-grid grid-auto">
+
+      <!-- Fine Dining -->
+      <div class="card filterable-card reveal" data-category="finedining">
+        <div class="card-img" style="background: linear-gradient(135deg, #1c1917, #78716c); font-size: 3.5rem;">🥩</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(120,113,108,0.1); color: #78716c;">Fine Dining</span>
+          <h3 class="card-title">Valter's Osteria</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★★</span></div>
+            <span class="price">$$$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">Italian</span>
+          </div>
+          <p class="card-desc">SLC's most celebrated fine dining experience — handmade pasta, impeccable Northern Italian cuisine, and owner Valter Nassi's legendary hospitality. Reservations essential.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 173 W Broadway, SLC</span>
+            <button class="fav-btn" data-fav-id="valters" onclick="toggleFavorite('valters', 'Valters Osteria')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="finedining">
+        <div class="card-img" style="background: linear-gradient(135deg, #1e3a8a, #7c3aed); font-size: 3.5rem;">🐟</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(124,58,237,0.1); color: #7c3aed;">Fine Dining</span>
+          <h3 class="card-title">Handle</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★★</span></div>
+            <span class="price">$$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">American</span>
+          </div>
+          <p class="card-desc">Park City's most acclaimed restaurant — elevated Rocky Mountain cuisine with local, seasonal ingredients. The craft cocktails are exceptional. Also in downtown SLC.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 Multiple locations</span>
+            <button class="fav-btn" data-fav-id="handle" onclick="toggleFavorite('handle', 'Handle')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="finedining">
+        <div class="card-img" style="background: linear-gradient(135deg, #064e3b, #0d9488); font-size: 3.5rem;">🌿</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(13,148,136,0.1); color: #0d9488;">Fine Dining</span>
+          <h3 class="card-title">Forage Restaurant</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★★</span></div>
+            <span class="price">$$$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">Farm-to-Table</span>
+          </div>
+          <p class="card-desc">James Beard-nominated and consistently ranked among Utah's best — hyper-local, forager-driven tasting menus that change with the seasons. Truly special.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 370 E 900 S, SLC</span>
+            <button class="fav-btn" data-fav-id="forage" onclick="toggleFavorite('forage', 'Forage')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Casual -->
+      <div class="card filterable-card reveal" data-category="casual brunch">
+        <div class="card-img" style="background: linear-gradient(135deg, #d97706, #92400e); font-size: 3.5rem;">🥞</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(217,119,6,0.1); color: #d97706;">Brunch · Casual</span>
+          <h3 class="card-title">Even Stevens</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★☆</span></div>
+            <span class="price">$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">Sandwiches · Brunch</span>
+          </div>
+          <p class="card-desc">SLC's beloved sandwich shop with a mission — for every sandwich sold, one is donated to fight hunger. Creative, stuffed sandwiches served all day.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 Multiple SLC locations</span>
+            <button class="fav-btn" data-fav-id="evenstevens" onclick="toggleFavorite('evenstevens', 'Even Stevens')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="brunch casual">
+        <div class="card-img" style="background: linear-gradient(135deg, #db2777, #f472b6); font-size: 3.5rem;">🍳</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(219,39,119,0.1); color: #db2777;">Brunch</span>
+          <h3 class="card-title">Penny Ann's Cafe</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★★</span></div>
+            <span class="price">$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">Classic Breakfast</span>
+          </div>
+          <p class="card-desc">A legendary SLC breakfast institution — expect lines on weekends for their cinnamon rolls, hearty omelets, and home-style cooking. Cash only, totally worth it.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 1810 S Main St, SLC</span>
+            <button class="fav-btn" data-fav-id="pennyann" onclick="toggleFavorite('pennyann', 'Penny Anns')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mexican -->
+      <div class="card filterable-card reveal" data-category="mexican casual">
+        <div class="card-img" style="background: linear-gradient(135deg, #dc2626, #d97706); font-size: 3.5rem;">🌮</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(220,38,38,0.1); color: #dc2626;">Mexican</span>
+          <h3 class="card-title">Red Iguana</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★★</span></div>
+            <span class="price">$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">Mexican · Mole</span>
+          </div>
+          <p class="card-desc">SLC's most iconic restaurant — nationally famous for its extraordinary mole sauces. Red Iguana has won every local "best restaurant" award and has a permanent 45-minute line. Worth every minute.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 736 W North Temple, SLC</span>
+            <button class="fav-btn" data-fav-id="rediguana" onclick="toggleFavorite('rediguana', 'Red Iguana')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="mexican casual">
+        <div class="card-img" style="background: linear-gradient(135deg, #d97706, #16a34a); font-size: 3.5rem;">🌯</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(220,38,38,0.1); color: #dc2626;">Mexican</span>
+          <h3 class="card-title">Tacos Don Ramón</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★★</span></div>
+            <span class="price">$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">Authentic Tacos</span>
+          </div>
+          <p class="card-desc">The city's best authentic street tacos — tiny spot on the west side with legendary al pastor, birria, and lengua. Open until 2am on weekends.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 West Side SLC locations</span>
+            <button class="fav-btn" data-fav-id="donramon" onclick="toggleFavorite('donramon', 'Tacos Don Ramon')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Asian -->
+      <div class="card filterable-card reveal" data-category="asian casual">
+        <div class="card-img" style="background: linear-gradient(135deg, #dc2626, #1c1917); font-size: 3.5rem;">🍜</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(220,38,38,0.1); color: #dc2626;">Asian</span>
+          <h3 class="card-title">Itto Ramen</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★★</span></div>
+            <span class="price">$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">Japanese Ramen</span>
+          </div>
+          <p class="card-desc">Consistently voted SLC's best ramen — rich tonkotsu and miso broths simmered 18 hours, premium noodles, and perfectly marinated eggs. Often a wait, always worth it.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 327 W 200 S, SLC</span>
+            <button class="fav-btn" data-fav-id="itto" onclick="toggleFavorite('itto', 'Itto Ramen')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="asian casual">
+        <div class="card-img" style="background: linear-gradient(135deg, #d97706, #dc2626); font-size: 3.5rem;">🍣</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(220,38,38,0.1); color: #dc2626;">Asian</span>
+          <h3 class="card-title">Takashi</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★★</span></div>
+            <span class="price">$$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">Japanese · Sushi</span>
+          </div>
+          <p class="card-desc">SLC's premier sushi restaurant — Takashi Gibo's award-winning sushi, izakaya dishes, and impeccable fish quality. A local institution for 20+ years.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 18 W Market St, SLC</span>
+            <button class="fav-btn" data-fav-id="takashi" onclick="toggleFavorite('takashi', 'Takashi')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="asian vegan">
+        <div class="card-img" style="background: linear-gradient(135deg, #16a34a, #0284c7); font-size: 3.5rem;">🍲</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(22,163,74,0.1); color: var(--green);">Asian · Vegan-Friendly</span>
+          <h3 class="card-title">Wild Grape Bistro</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★☆</span></div>
+            <span class="price">$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">New American</span>
+          </div>
+          <p class="card-desc">A cozy, creative spot with an excellent rotating menu of American small plates. Outstanding cocktail program and a warm neighborhood vibe.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 481 E South Temple, SLC</span>
+            <button class="fav-btn" data-fav-id="wildgrape" onclick="toggleFavorite('wildgrape', 'Wild Grape')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brewery -->
+      <div class="card filterable-card reveal" data-category="brewery casual">
+        <div class="card-img" style="background: linear-gradient(135deg, #92400e, #d97706); font-size: 3.5rem;">🍺</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(217,119,6,0.1); color: #d97706;">Craft Brewery</span>
+          <h3 class="card-title">Epic Brewing Company</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★★</span></div>
+            <span class="price">$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">Craft Beer</span>
+          </div>
+          <p class="card-desc">One of Utah's most innovative craft breweries — famous for bold IPAs, barrel-aged stouts, and experimental brews. The SLC taproom has a full kitchen and killer burgers.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 825 S State St, SLC</span>
+            <button class="fav-btn" data-fav-id="epic" onclick="toggleFavorite('epic', 'Epic Brewing')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="brewery casual">
+        <div class="card-img" style="background: linear-gradient(135deg, #1e3a8a, #d97706); font-size: 3.5rem;">🍻</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(217,119,6,0.1); color: #d97706;">Craft Brewery</span>
+          <h3 class="card-title">Squatters Pub Brewery</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★☆</span></div>
+            <span class="price">$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">Pub · American</span>
+          </div>
+          <p class="card-desc">SLC's original craft brewery since 1989 — a downtown institution with 15+ house-brewed beers, hearty pub food, and a lively atmosphere. Great for groups.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 147 W 300 S, SLC</span>
+            <button class="fav-btn" data-fav-id="squatters" onclick="toggleFavorite('squatters', 'Squatters')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="brewery casual">
+        <div class="card-img" style="background: linear-gradient(135deg, #064e3b, #d97706); font-size: 3.5rem;">🌾</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(217,119,6,0.1); color: #d97706;">Craft Brewery</span>
+          <h3 class="card-title">Desert Edge Brewery</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★☆</span></div>
+            <span class="price">$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">Pub Brewery</span>
+          </div>
+          <p class="card-desc">The Trolley Square brewpub — one of SLC's coziest spots. Rotating seasonal taps, excellent burgers, and a bustling patio in a converted historic building.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 602 E 500 S, SLC</span>
+            <button class="fav-btn" data-fav-id="desertedge" onclick="toggleFavorite('desertedge', 'Desert Edge')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vegan -->
+      <div class="card filterable-card reveal" data-category="vegan casual">
+        <div class="card-img" style="background: linear-gradient(135deg, #16a34a, #064e3b); font-size: 3.5rem;">🥗</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(22,163,74,0.12); color: var(--green);">Vegan · Vegetarian</span>
+          <h3 class="card-title">Zest Kitchen & Bar</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★★</span></div>
+            <span class="price">$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">100% Plant-Based</span>
+          </div>
+          <p class="card-desc">SLC's finest fully plant-based restaurant — creative, globally-inspired cuisine that converts even committed carnivores. Outstanding cocktails with housemade botanical syrups.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 275 S 200 W, SLC</span>
+            <button class="fav-btn" data-fav-id="zest" onclick="toggleFavorite('zest', 'Zest Kitchen')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="vegan casual brunch">
+        <div class="card-img" style="background: linear-gradient(135deg, #10b981, #d97706); font-size: 3.5rem;">🥑</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(22,163,74,0.12); color: var(--green);">Vegan · Brunch</span>
+          <h3 class="card-title">The Rose Establishment</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★★</span></div>
+            <span class="price">$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">Café · Plant-Forward</span>
+          </div>
+          <p class="card-desc">SLC's most beloved café — plant-forward brunch, exceptional specialty coffee, and an effortlessly cool atmosphere in a converted downtown space. The toast menu is legendary.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 235 S 400 W, SLC</span>
+            <button class="fav-btn" data-fav-id="rose" onclick="toggleFavorite('rose', 'The Rose Establishment')">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional casual -->
+      <div class="card filterable-card reveal" data-category="casual finedining">
+        <div class="card-img" style="background: linear-gradient(135deg, #0284c7, #1e3a8a); font-size: 3.5rem;">🦞</div>
+        <div class="card-body">
+          <span class="card-tag" style="background: rgba(2,132,199,0.1); color: #0284c7;">Seafood</span>
+          <h3 class="card-title">Log Haven</h3>
+          <div class="restaurant-meta">
+            <div class="rating"><span class="stars">★★★★★</span></div>
+            <span class="price">$$$$</span>
+            <span style="font-size: 0.8rem; color: var(--gray-400);">American · Scenic</span>
+          </div>
+          <p class="card-desc">SLC's most romantic dining destination — tucked into Millcreek Canyon with a waterfall outside. Award-winning cuisine served in a stunning 1920s mountain lodge setting.</p>
+          <div class="card-footer">
+            <span style="font-size: 0.8rem; color: var(--gray-500);">📍 4 mi up Millcreek Canyon</span>
+            <button class="fav-btn" data-fav-id="loghaven" onclick="toggleFavorite('loghaven', 'Log Haven')">♡</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Breweries Section -->
+    <div style="margin-top: 4rem;">
+      <div class="section-header reveal" style="text-align:left;">
+        <div class="section-tag">Craft Beer</div>
+        <h2>SLC's Craft Brewery Scene</h2>
+        <p style="color: var(--gray-500);">Despite Utah's unique alcohol laws, SLC has developed one of the most creative craft beer cultures in the Mountain West.</p>
+      </div>
+      <div class="reveal" style="background: rgba(0,48,135,0.04); border-radius: var(--radius-xl); padding: 2rem; border: 1px solid rgba(0,48,135,0.1);">
+        <h4 style="margin-bottom: 1rem;">⚠️ Utah Alcohol Quick Guide</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; font-size: 0.88rem; color: var(--gray-600);">
+          <div>🍺 <strong>Grocery stores</strong> sell beer up to 5% ABV</div>
+          <div>🍷 <strong>Wine & spirits</strong> from DABC State Liquor Stores only</div>
+          <div>🍹 <strong>Bars & restaurants</strong> serve full-strength alcohol</div>
+          <div>🏪 <strong>DABC stores</strong> are closed on Sundays</div>
+          <div>🍻 <strong>Craft breweries</strong> can sell high-point beer on-site</div>
+          <div>⏰ <strong>Last call</strong> is 1am at most venues</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo"><div class="icon">🏔️</div> SLC Explorer</div><p>Your guide to Salt Lake City's thriving food scene.</p></div>
+      <div class="footer-col"><h4>Explore</h4><ul><li><a href="explore.html">Things To Do</a></li><li><a href="outdoors.html">Outdoors</a></li><li><a href="neighborhoods.html">Neighborhoods</a></li></ul></div>
+      <div class="footer-col"><h4>Plan</h4><ul><li><a href="plan.html">Getting Here</a></li><li><a href="map.html">Interactive Map</a></li><li><a href="events.html">Events</a></li></ul></div>
+      <div class="footer-col"><h4>Quick</h4><ul><li><a href="index.html">Home</a></li><li><a href="food.html">Food & Drink</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 SLC Explorer</p></div>
+  </div>
+</footer>
+
+<button id="back-top" title="Back to top"><i class="fas fa-arrow-up"></i></button>
+<div class="toast-container"></div>
+<script src="script.js"></script>
+</body>
+</html>

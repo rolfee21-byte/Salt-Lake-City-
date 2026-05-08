@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salt Lake City — Your Ultimate Guide</title>
+  <meta name="description" content="Explore Salt Lake City's best attractions, outdoor adventures, neighborhoods, food scene, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Index-specific */
+    .hero { min-height: 100vh; }
+    .highlights-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .highlight-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-100);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .highlight-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-xl); }
+    .highlight-card-img {
+      height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4.5rem;
+    }
+    .highlight-card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .highlight-card-body h3 { margin-bottom: 0.5rem; font-size: 1.15rem; }
+    .highlight-card-body p { color: var(--gray-500); font-size: 0.88rem; flex: 1; }
+    .highlight-card-body .link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--primary);
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      transition: var(--transition);
+    }
+    .highlight-card-body .link:hover { color: var(--primary-light); gap: 0.55rem; }
+    .fun-facts { background: var(--primary-dark); color: var(--white); padding: 4rem 0; }
+    .facts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+    .fact-box {
+      background: rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: var(--transition);
+    }
+    .fact-box:hover { background: rgba(255,255,255,0.14); }
+    .fact-box .icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .fact-box .val {
+      font-family: var(--font-sans);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .fact-box .desc { font-size: 0.82rem; color: rgba(255,255,255,0.65); }
+    .newsletter {
+      background: linear-gradient(135deg, #003087 0%, #1a56db 100%);
+      border-radius: var(--radius-xl);
+      padding: 3rem;
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+    }
+    .newsletter-text { flex: 1; color: var(--white); }
+    .newsletter-text h2 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    .newsletter-text p { color: rgba(255,255,255,0.75); }
+    .newsletter-form { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .newsletter-input {
+      flex: 1;
+      min-width: 220px;
+      padding: 0.85rem 1.25rem;
+      border-radius: var(--radius-full);
+      border: none;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      outline: none;
+    }
+    @media (max-width: 768px) {
+      .newsletter { flex-direction: column; gap: 1.5rem; padding: 2rem; }
+      .newsletter-form { width: 100%; }
+      .newsletter-input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🏔️</div>
+      SLC Explorer
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="outdoors.html">Outdoors</a>
+      <a href="neighborhoods.html">Neighborhoods</a>
+      <a href="food.html">Food & Drink</a>
+      <a href="events.html">Events</a>
+      <a href="map.html">Map</a>
+      <a href="plan.html" class="nav-cta">Plan Visit</a>
+    </div>
+    <button class="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <!-- Mountain Silhouette SVG -->
+  <div class="mountain-layer">
+    <svg viewBox="0 0 1440 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <!-- Back mountains (lighter) -->
+      <polygon points="0,300 0,200 120,100 240,170 360,80 480,150 600,60 720,140 840,70 960,160 1080,90 1200,150 1320,100 1440,130 1440,300" fill="rgba(255,255,255,0.05)"/>
+      <!-- Mid mountains -->
+      <polygon points="0,300 0,240 100,160 200,210 320,130 440,190 560,110 680,180 800,120 920,200 1040,140 1160,195 1280,140 1440,175 1440,300" fill="rgba(0,26,82,0.4)"/>
+      <!-- Front mountains (dark) -->
+      <polygon points="0,300 0,270 80,220 180,260 280,200 380,250 480,185 580,240 680,195 780,255 880,205 980,260 1080,220 1180,265 1280,230 1380,260 1440,240 1440,300" fill="rgba(0,10,40,0.6)"/>
+    </svg>
+  </div>
+
+  <!-- Weather widget -->
+  <div class="hero-weather">
+    <div class="weather-icon">☀️</div>
+    <div class="temp">72°F</div>
+    <div class="condition">Sunny & Clear</div>
+    <div class="city-time">SLC — <span id="slc-time">--:--</span></div>
+  </div>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Welcome to Salt Lake City, Utah
+      </div>
+      <h1>Discover the <span>Magic</span> of Salt Lake City</h1>
+      <p>Where the mountains meet the city — explore world-class skiing, vibrant neighborhoods, incredible food, and over 300 days of sunshine a year.</p>
+      <div class="hero-actions">
+        <a href="explore.html" class="btn btn-primary"><i class="fas fa-compass"></i> Start Exploring</a>
+        <a href="plan.html" class="btn btn-outline"><i class="fas fa-map-marked-alt"></i> Plan Your Trip</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="num" data-target="200" data-suffix="K+">0</span>
+          <span class="label">City Population</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num" data-target="4327" data-suffix=" ft">0</span>
+          <span class="label">Elevation</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num" data-target="300" data-suffix="+ days">0</span>
+          <span class="label">Annual Sunshine</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num" data-target="7" data-suffix=" resorts">0</span>
+          <span class="label">Nearby Ski Resorts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE STRIP -->
+<div class="feature-strip">
+  <div class="container">
+    <div class="feature-item reveal">
+      <div class="icon">🎿</div>
+      <div class="text">
+        <h4>Greatest Snow on Earth</h4>
+        <p>7 world-class ski resorts within 45 min</p>
+      </div>
+    </div>
+    <div class="feature-item reveal reveal-delay-1">
+      <div class="icon">🥾</div>
+      <div class="text">
+        <h4>Endless Trails</h4>
+        <p>200+ miles of hiking & biking trails</p>
+      </div>
+    </div>
+    <div class="feature-item reveal reveal-delay-2">
+      <div class="icon">🍽️</div>
+      <div class="text">
+        <h4>Booming Food Scene</h4>
+        <p>World-class restaurants & craft breweries</p>
+      </div>
+    </div>
+    <div class="feature-item reveal reveal-delay-3">
+      <div class="icon">🎭</div>
+      <div class="text">
+        <h4>Arts & Culture</h4>
+        <p>Museums, galleries & live performances</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAVIGATION CARDS -->
+<section class="section" style="background: var(--white);">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Explore SLC</div>
+      <h2>Where Do You Want to Go?</h2>
+      <p>From snowy peaks to vibrant city streets — there's something for everyone in Salt Lake City.</p>
+    </div>
+    <div class="nav-cards reveal">
+      <a href="explore.html" class="nav-card" style="background: linear-gradient(135deg, #003087, #1a56db);">
+        <div class="nav-icon">🏛️</div>
+        <h3>Things To Do</h3>
+        <p>Attractions, museums & landmarks</p>
+      </a>
+      <a href="outdoors.html" class="nav-card" style="background: linear-gradient(135deg, #064e3b, #059669);">
+        <div class="nav-icon">⛷️</div>
+        <h3>Outdoors</h3>
+        <p>Skiing, hiking & adventure sports</p>
+      </a>
+      <a href="neighborhoods.html" class="nav-card" style="background: linear-gradient(135deg, #4c1d95, #7c3aed);">
+        <div class="nav-icon">🏘️</div>
+        <h3>Neighborhoods</h3>
+        <p>Explore local districts & vibes</p>
+      </a>
+      <a href="food.html" class="nav-card" style="background: linear-gradient(135deg, #7f1d1d, #dc2626);">
+        <div class="nav-icon">🍜</div>
+        <h3>Food & Drink</h3>
+        <p>Restaurants, bars & craft breweries</p>
+      </a>
+      <a href="events.html" class="nav-card" style="background: linear-gradient(135deg, #92400e, #d97706);">
+        <div class="nav-icon">🎪</div>
+        <h3>Events</h3>
+        <p>Festivals, concerts & sports</p>
+      </a>
+      <a href="map.html" class="nav-card" style="background: linear-gradient(135deg, #0c4a6e, #0284c7);">
+        <div class="nav-icon">🗺️</div>
+        <h3>Interactive Map</h3>
+        <p>Crime rates, rent, ski areas & more</p>
+      </a>
+      <a href="plan.html" class="nav-card" style="background: linear-gradient(135deg, #1c1917, #57534e);">
+        <div class="nav-icon">✈️</div>
+        <h3>Plan Your Visit</h3>
+        <p>Hotels, transport & travel tips</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED HIGHLIGHTS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Must-See</div>
+      <h2>Featured Highlights</h2>
+      <p>Hand-picked experiences that define Salt Lake City's unique character.</p>
+    </div>
+    <div class="highlights-row">
+      <div class="highlight-card reveal">
+        <div class="highlight-card-img" style="background: linear-gradient(135deg, #003087, #1a56db);">⛪</div>
+        <div class="highlight-card-body">
+          <span class="badge badge-blue">Historic</span>
+          <h3>Temple Square</h3>
+          <p>The iconic 10-acre plaza home to the Salt Lake Temple — a stunning 19th-century Gothic spire rising 210 feet in the heart of downtown.</p>
+          <a href="explore.html" class="link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="highlight-card reveal reveal-delay-1">
+        <div class="highlight-card-img" style="background: linear-gradient(135deg, #064e3b, #059669);">🎿</div>
+        <div class="highlight-card-body">
+          <span class="badge badge-green">Outdoors</span>
+          <h3>World-Class Skiing</h3>
+          <p>Brighton, Snowbird, Alta, and Solitude are all within 30 miles — offering some of North America's deepest powder with the famous Utah light snow.</p>
+          <a href="outdoors.html" class="link">Explore Resorts <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="highlight-card reveal reveal-delay-2">
+        <div class="highlight-card-img" style="background: linear-gradient(135deg, #7c3aed, #a855f7);">🦕</div>
+        <div class="highlight-card-body">
+          <span class="badge badge-purple">Museum</span>
+          <h3>Natural History Museum</h3>
+          <p>One of the nation's finest natural history museums, showcasing Utah's incredible dinosaur fossils, ancient Native American cultures, and unique geology.</p>
+          <a href="explore.html" class="link">Visit Museum <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="highlight-card reveal reveal-delay-3">
+        <div class="highlight-card-img" style="background: linear-gradient(135deg, #7f1d1d, #dc2626);">🍺</div>
+        <div class="highlight-card-body">
+          <span class="badge badge-red">Food & Drink</span>
+          <h3>Craft Beer Scene</h3>
+          <p>SLC's thriving craft brewery scene — from Epic Brewing's bold IPAs to Squatters' classic pints — has transformed the city into a serious beer destination.</p>
+          <a href="food.html" class="link">See Breweries <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="highlight-card reveal">
+        <div class="highlight-card-img" style="background: linear-gradient(135deg, #0c4a6e, #0284c7);">🏊</div>
+        <div class="highlight-card-body">
+          <span class="badge badge-blue">Nature</span>
+          <h3>Great Salt Lake</h3>
+          <p>The largest saltwater lake in the Western Hemisphere — its pink-hued waters and dramatic sunsets create one of Utah's most surreal landscapes.</p>
+          <a href="explore.html" class="link">Explore the Lake <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="highlight-card reveal reveal-delay-1">
+        <div class="highlight-card-img" style="background: linear-gradient(135deg, #92400e, #d97706);">🎭</div>
+        <div class="highlight-card-body">
+          <span class="badge badge-yellow">Arts</span>
+          <h3>Granary District Arts</h3>
+          <p>SLC's coolest arts neighborhood, packed with galleries, studios, and independent venues — the creative heart of a rapidly evolving city.</p>
+          <a href="neighborhoods.html" class="link">Explore District <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUN FACTS -->
+<section class="fun-facts">
+  <div class="container">
+    <div class="section-header reveal" style="color: var(--white);">
+      <div class="section-tag" style="background: rgba(245,179,0,0.2); color: var(--accent);">By the Numbers</div>
+      <h2>Salt Lake City at a Glance</h2>
+    </div>
+    <div class="facts-grid">
+      <div class="fact-box reveal">
+        <div class="icon">🏔️</div>
+        <div class="val" data-target="11000" data-suffix="'">0</div>
+        <div class="desc">Peak elevation of nearby Wasatch peaks</div>
+      </div>
+      <div class="fact-box reveal reveal-delay-1">
+        <div class="icon">☀️</div>
+        <div class="val" data-target="222" data-suffix="">0</div>
+        <div class="desc">Average sunny days per year</div>
+      </div>
+      <div class="fact-box reveal reveal-delay-2">
+        <div class="icon">🎿</div>
+        <div class="val" data-target="500" data-suffix="+">0</div>
+        <div class="desc">Inches of annual snowfall in nearby canyons</div>
+      </div>
+      <div class="fact-box reveal reveal-delay-3">
+        <div class="icon">🏙️</div>
+        <div class="val" data-target="1.2" data-suffix="M">0</div>
+        <div class="desc">Metro area population</div>
+      </div>
+      <div class="fact-box reveal">
+        <div class="icon">🌊</div>
+        <div class="val" data-target="1700" data-suffix=" sq mi">0</div>
+        <div class="desc">Area of the Great Salt Lake</div>
+      </div>
+      <div class="fact-box reveal reveal-delay-1">
+        <div class="icon">🦅</div>
+        <div class="val" data-target="5" data-suffix="">0</div>
+        <div class="desc">National parks within a day's drive</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK INFO ACCORDION -->
+<section class="section" style="background: var(--white);">
+  <div class="container">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;">
+      <div>
+        <div class="section-tag reveal">Quick Guide</div>
+        <h2 class="reveal" style="margin-bottom: 0.5rem;">Everything You<br>Need to Know</h2>
+        <p class="reveal" style="color: var(--gray-500); margin-bottom: 2rem;">Answers to the most common questions about visiting Salt Lake City.</p>
+        <div class="accordion-item reveal">
+          <div class="accordion-header">
+            <span>🌤️ What's the weather like?</span>
+            <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">SLC has four distinct seasons. Summers are warm and dry (70–95°F), perfect for hiking. Winters are cold with heavy mountain snowfall (20–35°F in the valley). Spring and fall are mild and beautiful. The valley typically gets less snow than the nearby canyons.</div>
+          </div>
+        </div>
+        <div class="accordion-item reveal">
+          <div class="accordion-header">
+            <span>🚗 How do I get around?</span>
+            <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">TRAX light rail connects downtown to the airport and suburbs. UTA buses cover the metro area. Many neighborhoods are walkable. Uber/Lyft are readily available. For ski canyons, renting a car is strongly recommended as public transit to resorts is limited.</div>
+          </div>
+        </div>
+        <div class="accordion-item reveal">
+          <div class="accordion-header">
+            <span>🍺 What's the alcohol situation?</span>
+            <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">Utah has unique liquor laws. Bars and restaurants serve full-strength alcohol but there are some quirks — grocery stores sell beer limited to 5% ABV. State Liquor Stores (DABC) sell wine and spirits. The craft beer scene is thriving despite the laws.</div>
+          </div>
+        </div>
+        <div class="accordion-item reveal">
+          <div class="accordion-header">
+            <span>💰 Is SLC expensive?</span>
+            <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">SLC has grown significantly in cost but remains more affordable than Denver, Seattle, or San Francisco. Average rent is $1,300–$1,800/month. Meals range from $10 budget spots to $50+ fine dining. Ski lift tickets are $100–$180/day. See our Plan page for a full budget guide.</div>
+          </div>
+        </div>
+        <div class="accordion-item reveal">
+          <div class="accordion-header">
+            <span>🏳️‍🌈 Is SLC LGBTQ+ friendly?</span>
+            <span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">Yes! SLC has a vibrant and growing LGBTQ+ community centered around the 9th & 9th neighborhood and the Capitol Hill area. Utah Pride Festival (June) is one of the region's largest. The city is notably more progressive than the surrounding state.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="reveal" style="background: linear-gradient(135deg, #003087 0%, #1a56db 100%); border-radius: var(--radius-xl); padding: 2.5rem; color: var(--white); margin-bottom: 1.5rem;">
+          <h3 style="margin-bottom: 1rem; font-size: 1.3rem;">🗓️ Best Times to Visit</h3>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 0.85rem 1rem; display: flex; gap: 0.75rem; align-items: center;">
+              <span style="font-size: 1.3rem;">❄️</span>
+              <div>
+                <div style="font-weight: 700; font-family: var(--font-sans); font-size: 0.9rem;">Nov – Mar: Ski Season</div>
+                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">World-class powder, festivals, après-ski</div>
+              </div>
+            </div>
+            <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 0.85rem 1rem; display: flex; gap: 0.75rem; align-items: center;">
+              <span style="font-size: 1.3rem;">🌸</span>
+              <div>
+                <div style="font-weight: 700; font-family: var(--font-sans); font-size: 0.9rem;">Apr – May: Spring Bloom</div>
+                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">Mild temps, fewer crowds, wildflowers</div>
+              </div>
+            </div>
+            <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 0.85rem 1rem; display: flex; gap: 0.75rem; align-items: center;">
+              <span style="font-size: 1.3rem;">☀️</span>
+              <div>
+                <div style="font-weight: 700; font-family: var(--font-sans); font-size: 0.9rem;">Jun – Sep: Peak Summer</div>
+                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">Festivals, hiking, outdoor concerts</div>
+              </div>
+            </div>
+            <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 0.85rem 1rem; display: flex; gap: 0.75rem; align-items: center;">
+              <span style="font-size: 1.3rem;">🍂</span>
+              <div>
+                <div style="font-weight: 700; font-family: var(--font-sans); font-size: 0.9rem;">Oct – Nov: Fall Colors</div>
+                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">Stunning foliage in the canyons</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal" style="background: var(--gray-50); border-radius: var(--radius-xl); padding: 2rem;">
+          <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">📍 Getting There</h3>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.88rem; color: var(--gray-600);">
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+              <span style="font-size: 1.1rem; flex-shrink: 0;">✈️</span>
+              <span><strong>By Air:</strong> Salt Lake City International Airport (SLC) — recently renovated, direct flights from 90+ cities. TRAX light rail connects airport to downtown in 25 min.</span>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+              <span style="font-size: 1.1rem; flex-shrink: 0;">🚗</span>
+              <span><strong>By Car:</strong> I-15 is the main artery. 4.5 hrs from Las Vegas, 8 hrs from Denver, 6.5 hrs from Phoenix.</span>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+              <span style="font-size: 1.1rem; flex-shrink: 0;">🚆</span>
+              <span><strong>By Train:</strong> Amtrak's California Zephyr stops at SLC, connecting to San Francisco (17 hrs) and Denver (11 hrs).</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="section">
+  <div class="container">
+    <div class="newsletter reveal">
+      <div class="newsletter-text">
+        <h2>Stay in the Loop 📬</h2>
+        <p>Get weekly updates on events, new restaurants, trail conditions, and local insider tips.</p>
+      </div>
+      <div>
+        <div class="newsletter-form">
+          <input type="email" class="newsletter-input" placeholder="your@email.com">
+          <button class="btn btn-primary" onclick="showToast('Thanks for subscribing! 🎉', 'success')">
+            <i class="fas fa-paper-plane"></i> Subscribe
+          </button>
+        </div>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.78rem; margin-top: 0.75rem;">No spam, ever. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="icon">🏔️</div>
+          SLC Explorer
+        </div>
+        <p>Your ultimate guide to Salt Lake City — from world-class skiing to vibrant city life, we've got every corner covered.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="explore.html">Things To Do</a></li>
+          <li><a href="outdoors.html">Outdoor Adventures</a></li>
+          <li><a href="neighborhoods.html">Neighborhoods</a></li>
+          <li><a href="food.html">Food & Drink</a></li>
+          <li><a href="events.html">Events</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Plan</h4>
+        <ul>
+          <li><a href="plan.html">Getting Here</a></li>
+          <li><a href="plan.html#transport">Getting Around</a></li>
+          <li><a href="plan.html#hotels">Where to Stay</a></li>
+          <li><a href="plan.html#budget">Budget Guide</a></li>
+          <li><a href="map.html">Interactive Map</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Visit Salt Lake</a></li>
+          <li><a href="#">Utah Tourism</a></li>
+          <li><a href="#">UTA Transit</a></li>
+          <li><a href="#">Utah Ski Map</a></li>
+          <li><a href="#">Emergency Info</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 SLC Explorer — Built with ❤️ for Salt Lake City</p>
+      <p>Data sourced from <a href="#">Visit Salt Lake</a> & <a href="#">SLC Open Data</a></p>
+    </div>
+  </div>
+</footer>
+
+<button id="back-top" title="Back to top"><i class="fas fa-arrow-up"></i></button>
+<div class="toast-container"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

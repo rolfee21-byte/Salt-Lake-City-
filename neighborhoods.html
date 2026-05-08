@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neighborhoods — SLC Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .hood-card {
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      border: 1px solid var(--gray-100);
+      background: var(--white);
+    }
+    .hood-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-xl); }
+    .hood-header {
+      padding: 2rem;
+      color: var(--white);
+      position: relative;
+    }
+    .hood-emoji { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .hood-header h3 { font-size: 1.3rem; font-weight: 900; margin-bottom: 0.25rem; }
+    .hood-header .tagline { font-size: 0.85rem; color: rgba(255,255,255,0.8); }
+    .hood-vibes { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+    .vibe-tag {
+      background: rgba(255,255,255,0.2);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-full);
+    }
+    .hood-body { padding: 1.5rem; }
+    .hood-body p { font-size: 0.88rem; color: var(--gray-500); line-height: 1.65; margin-bottom: 1rem; }
+    .hood-highlights { display: flex; flex-direction: column; gap: 0.5rem; }
+    .hood-hl { display: flex; align-items: center; gap: 0.5rem; font-size: 0.83rem; color: var(--gray-600); }
+    .hood-hl .icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; }
+    .hood-stats { display: flex; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--gray-100); margin-top: 1rem; }
+    .hood-stat { flex: 1; text-align: center; }
+    .hood-stat .val { font-family: var(--font-sans); font-weight: 800; font-size: 1.1rem; color: var(--primary); }
+    .hood-stat .lbl { font-size: 0.7rem; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.05em; }
+    .vibe-filter-section { background: var(--white); padding: 1.5rem; border-radius: var(--radius-xl); box-shadow: var(--shadow-sm); margin-bottom: 2.5rem; }
+    .vibe-filter-section h4 { font-size: 0.85rem; font-family: var(--font-sans); color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="container">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">🏔️</div> SLC Explorer</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="outdoors.html">Outdoors</a>
+      <a href="neighborhoods.html" class="active">Neighborhoods</a>
+      <a href="food.html">Food & Drink</a>
+      <a href="events.html">Events</a>
+      <a href="map.html">Map</a>
+      <a href="plan.html" class="nav-cta">Plan Visit</a>
+    </div>
+    <button class="nav-toggle"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg" style="background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 50%, #a855f7 100%);"></div>
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right" style="font-size:0.7rem;"></i> Neighborhoods</div>
+    <h1>🏘️ Explore SLC's Neighborhoods</h1>
+    <p>From the walkable urban core to leafy residential streets — each neighborhood has its own distinct character and culture.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- Vibe Filter -->
+    <div class="vibe-filter-section reveal">
+      <h4>Filter by Vibe</h4>
+      <div class="filter-chips">
+        <button class="chip active" data-filter="all">All Neighborhoods</button>
+        <button class="chip" data-filter="trendy">Trendy</button>
+        <button class="chip" data-filter="historic">Historic</button>
+        <button class="chip" data-filter="family">Family-Friendly</button>
+        <button class="chip" data-filter="arts">Arts Scene</button>
+        <button class="chip" data-filter="lgbtq">LGBTQ+</button>
+        <button class="chip" data-filter="foodie">Foodie</button>
+        <button class="chip" data-filter="outdoor">Outdoor Access</button>
+      </div>
+    </div>
+
+    <div class="cards-grid grid-auto">
+
+      <!-- Downtown -->
+      <div class="hood-card filterable-card reveal" data-category="trendy foodie arts">
+        <div class="hood-header" style="background: linear-gradient(135deg, #003087, #1a56db);">
+          <div class="hood-emoji">🏙️</div>
+          <h3>Downtown / CBD</h3>
+          <div class="tagline">The urban core — business, culture & buzz</div>
+          <div class="hood-vibes">
+            <span class="vibe-tag">Walkable</span>
+            <span class="vibe-tag">Trendy</span>
+            <span class="vibe-tag">Arts</span>
+            <span class="vibe-tag">Food</span>
+          </div>
+        </div>
+        <div class="hood-body">
+          <p>Salt Lake City's bustling urban center is undergoing a remarkable transformation — gleaming new towers, renovated historic buildings, world-class venues, and a thriving restaurant and bar scene. The Delta Center anchors the west end, while Eccles Theater and Library Square define the cultural core.</p>
+          <div class="hood-highlights">
+            <div class="hood-hl"><div class="icon" style="background: rgba(0,48,135,0.1);">🎭</div> Eccles Theater, Capitol Theatre, Gallivan Center</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(0,48,135,0.1);">🍽️</div> Dense restaurant & craft cocktail scene</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(0,48,135,0.1);">🚊</div> TRAX hub — easy transit access from airport</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(0,48,135,0.1);">⛪</div> Temple Square as the iconic anchor</div>
+          </div>
+          <div class="hood-stats">
+            <div class="hood-stat"><div class="val">Walk 96</div><div class="lbl">Walkability</div></div>
+            <div class="hood-stat"><div class="val">$1,800</div><div class="lbl">Avg Rent/mo</div></div>
+            <div class="hood-stat"><div class="val">Low</div><div class="lbl">Crime vs avg</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sugar House -->
+      <div class="hood-card filterable-card reveal" data-category="trendy foodie family lgbtq">
+        <div class="hood-header" style="background: linear-gradient(135deg, #db2777, #9d174d);">
+          <div class="hood-emoji">🍬</div>
+          <h3>Sugar House</h3>
+          <div class="tagline">SLC's coolest neighborhood — indie shops & cafés</div>
+          <div class="hood-vibes">
+            <span class="vibe-tag">Trendy</span>
+            <span class="vibe-tag">LGBTQ+ Friendly</span>
+            <span class="vibe-tag">Foodie</span>
+            <span class="vibe-tag">Young</span>
+          </div>
+        </div>
+        <div class="hood-body">
+          <p>Sugar House is consistently voted SLC's most popular neighborhood — a dense, walkable enclave packed with independent coffee shops, restaurants, boutiques, and bars. The Sugar House Business District along 2100 S is the city's best commercial strip for local businesses. Beloved Sugar House Park offers a stunning mountain backdrop.</p>
+          <div class="hood-highlights">
+            <div class="hood-hl"><div class="icon" style="background: rgba(219,39,119,0.1);">☕</div> Best independent coffee shops in SLC</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(219,39,119,0.1);">🏞️</div> Sugar House Park — 110 acres with pond & mountain views</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(219,39,119,0.1);">🛍️</div> Indie boutiques and local bookstores</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(219,39,119,0.1);">🎭</div> Venues: Urban Lounge, State Room</div>
+          </div>
+          <div class="hood-stats">
+            <div class="hood-stat"><div class="val">Walk 88</div><div class="lbl">Walkability</div></div>
+            <div class="hood-stat"><div class="val">$1,500</div><div class="lbl">Avg Rent/mo</div></div>
+            <div class="hood-stat"><div class="val">Low</div><div class="lbl">Crime vs avg</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- The Avenues -->
+      <div class="hood-card filterable-card reveal" data-category="historic family outdoor">
+        <div class="hood-header" style="background: linear-gradient(135deg, #064e3b, #059669);">
+          <div class="hood-emoji">🌳</div>
+          <h3>The Avenues</h3>
+          <div class="tagline">Historic Victorian streets with mountain trailheads</div>
+          <div class="hood-vibes">
+            <span class="vibe-tag">Historic</span>
+            <span class="vibe-tag">Walkable</span>
+            <span class="vibe-tag">Trails</span>
+            <span class="vibe-tag">Family</span>
+          </div>
+        </div>
+        <div class="hood-body">
+          <p>The Avenues is one of SLC's most desirable residential neighborhoods — a hillside grid of Victorian homes, tree-lined streets, and incredible Wasatch views. Streets run in a named grid (A through V) climbing the foothills. Direct access to the Bonneville Shoreline Trail makes it paradise for hikers and runners.</p>
+          <div class="hood-highlights">
+            <div class="hood-hl"><div class="icon" style="background: rgba(5,150,105,0.1);">🏡</div> Beautiful Victorian & craftsman architecture</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(5,150,105,0.1);">🥾</div> Direct Bonneville Shoreline Trail access</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(5,150,105,0.1);">🌿</div> Memory Grove Park at the canyon mouth</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(5,150,105,0.1);">🍽️</div> 9th & 9th restaurant row nearby</div>
+          </div>
+          <div class="hood-stats">
+            <div class="hood-stat"><div class="val">Walk 72</div><div class="lbl">Walkability</div></div>
+            <div class="hood-stat"><div class="val">$1,600</div><div class="lbl">Avg Rent/mo</div></div>
+            <div class="hood-stat"><div class="val">Very Low</div><div class="lbl">Crime vs avg</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9th & 9th -->
+      <div class="hood-card filterable-card reveal" data-category="trendy foodie lgbtq arts">
+        <div class="hood-header" style="background: linear-gradient(135deg, #d97706, #dc2626);">
+          <div class="hood-emoji">✨</div>
+          <h3>9th & 9th</h3>
+          <div class="tagline">SLC's LGBTQ+ hub — charming and community-driven</div>
+          <div class="hood-vibes">
+            <span class="vibe-tag">LGBTQ+ Hub</span>
+            <span class="vibe-tag">Foodie</span>
+            <span class="vibe-tag">Artsy</span>
+            <span class="vibe-tag">Boutique</span>
+          </div>
+        </div>
+        <div class="hood-body">
+          <p>The intersection of 900 S and 900 E is the heart of SLC's most eclectic and welcoming community — a dense cluster of LGBTQ+ bars, indie restaurants, coffee shops, and boutiques. A village-within-a-city atmosphere with an unmistakable creative energy and progressive spirit.</p>
+          <div class="hood-highlights">
+            <div class="hood-hl"><div class="icon" style="background: rgba(217,119,6,0.1);">🏳️‍🌈</div> Unofficial LGBTQ+ capital of SLC</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(217,119,6,0.1);">☕</div> Caffe Molise, Publik Coffee, and dozens of cafés</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(217,119,6,0.1);">🍺</div> Bar X, Beer Bar, and cocktail culture</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(217,119,6,0.1);">🛍️</div> Independent fashion and vintage shops</div>
+          </div>
+          <div class="hood-stats">
+            <div class="hood-stat"><div class="val">Walk 82</div><div class="lbl">Walkability</div></div>
+            <div class="hood-stat"><div class="val">$1,450</div><div class="lbl">Avg Rent/mo</div></div>
+            <div class="hood-stat"><div class="val">Low</div><div class="lbl">Crime vs avg</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capitol Hill -->
+      <div class="hood-card filterable-card reveal" data-category="historic arts">
+        <div class="hood-header" style="background: linear-gradient(135deg, #c8102e, #003087);">
+          <div class="hood-emoji">🏛️</div>
+          <h3>Capitol Hill</h3>
+          <div class="tagline">Historic hilltop district with sweeping valley views</div>
+          <div class="hood-vibes">
+            <span class="vibe-tag">Historic</span>
+            <span class="vibe-tag">Views</span>
+            <span class="vibe-tag">Quiet</span>
+          </div>
+        </div>
+        <div class="hood-body">
+          <p>Perched above downtown on the north side, Capitol Hill surrounds the stunning Utah State Capitol building. The neighborhood features a mix of Victorian mansions, converted row houses, and excellent views of the entire valley. The Marmalade District — its charming eastern section — has some of SLC's oldest homes and streets named after fruits.</p>
+          <div class="hood-highlights">
+            <div class="hood-hl"><div class="icon" style="background: rgba(200,16,46,0.1);">🏛️</div> Utah State Capitol — free tours and panoramic views</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(200,16,46,0.1);">🏡</div> Marmalade District — SLC's oldest homes</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(200,16,46,0.1);">🌸</div> Memory Grove Park at the south edge</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(200,16,46,0.1);">🌄</div> Unobstructed valley views from the hill</div>
+          </div>
+          <div class="hood-stats">
+            <div class="hood-stat"><div class="val">Walk 68</div><div class="lbl">Walkability</div></div>
+            <div class="hood-stat"><div class="val">$1,350</div><div class="lbl">Avg Rent/mo</div></div>
+            <div class="hood-stat"><div class="val">Very Low</div><div class="lbl">Crime vs avg</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Granary District -->
+      <div class="hood-card filterable-card reveal" data-category="arts trendy">
+        <div class="hood-header" style="background: linear-gradient(135deg, #78716c, #1c1917);">
+          <div class="hood-emoji">🎨</div>
+          <h3>Granary District</h3>
+          <div class="tagline">SLC's creative arts district — galleries & studios</div>
+          <div class="hood-vibes">
+            <span class="vibe-tag">Arts District</span>
+            <span class="vibe-tag">Industrial</span>
+            <span class="vibe-tag">Breweries</span>
+            <span class="vibe-tag">Studios</span>
+          </div>
+        </div>
+        <div class="hood-body">
+          <p>SLC's rapidly evolving arts district — a converted industrial neighborhood just south of downtown packed with galleries, artist studios, craft breweries, and independent music venues. The Utah Museum of Contemporary Art's Future Home is anchoring a major arts corridor here. Think Brooklyn before the rents skyrocketed.</p>
+          <div class="hood-highlights">
+            <div class="hood-hl"><div class="icon" style="background: rgba(120,113,108,0.1);">🎨</div> Dense gallery scene — First Friday openings</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(120,113,108,0.1);">🍺</div> Epic Brewing, Fisher Brewing, and more</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(120,113,108,0.1);">🎵</div> Live music venues: Soundwell, Metro</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(120,113,108,0.1);">🏭</div> Adaptive reuse of historic industrial buildings</div>
+          </div>
+          <div class="hood-stats">
+            <div class="hood-stat"><div class="val">Walk 74</div><div class="lbl">Walkability</div></div>
+            <div class="hood-stat"><div class="val">$1,300</div><div class="lbl">Avg Rent/mo</div></div>
+            <div class="hood-stat"><div class="val">Med</div><div class="lbl">Crime vs avg</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- University / Foothill -->
+      <div class="hood-card filterable-card reveal" data-category="outdoor arts family">
+        <div class="hood-header" style="background: linear-gradient(135deg, #7c3aed, #db2777);">
+          <div class="hood-emoji">🎓</div>
+          <h3>University / East Bench</h3>
+          <div class="tagline">College energy meets mountain trailheads</div>
+          <div class="hood-vibes">
+            <span class="vibe-tag">Academic</span>
+            <span class="vibe-tag">Young</span>
+            <span class="vibe-tag">Trails</span>
+            <span class="vibe-tag">Arts</span>
+          </div>
+        </div>
+        <div class="hood-body">
+          <p>The University of Utah's stunning campus sits against the Wasatch foothills, making this one of the most scenic urban university settings in the US. The surrounding neighborhoods are lively, diverse, and full of excellent cafés, museums, and direct trail access. Red Butte Garden and Natural History Museum anchor the upper end.</p>
+          <div class="hood-highlights">
+            <div class="hood-hl"><div class="icon" style="background: rgba(124,58,237,0.1);">🦕</div> Natural History Museum of Utah on campus</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(124,58,237,0.1);">🌸</div> Red Butte Garden — summer concerts</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(124,58,237,0.1);">🎨</div> Utah Museum of Fine Arts</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(124,58,237,0.1);">⚽</div> Rice-Eccles Stadium — Utah Utes football</div>
+          </div>
+          <div class="hood-stats">
+            <div class="hood-stat"><div class="val">Walk 65</div><div class="lbl">Walkability</div></div>
+            <div class="hood-stat"><div class="val">$1,250</div><div class="lbl">Avg Rent/mo</div></div>
+            <div class="hood-stat"><div class="val">Low</div><div class="lbl">Crime vs avg</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rose Park -->
+      <div class="hood-card filterable-card reveal" data-category="historic family">
+        <div class="hood-header" style="background: linear-gradient(135deg, #16a34a, #0284c7);">
+          <div class="hood-emoji">🌹</div>
+          <h3>Rose Park</h3>
+          <div class="tagline">Diverse, affordable, and full of character</div>
+          <div class="hood-vibes">
+            <span class="vibe-tag">Diverse</span>
+            <span class="vibe-tag">Affordable</span>
+            <span class="vibe-tag">Community</span>
+            <span class="vibe-tag">Cultural</span>
+          </div>
+        </div>
+        <div class="hood-body">
+          <p>Rose Park is one of SLC's most culturally diverse and rapidly improving neighborhoods — home to a thriving Latino community, excellent authentic food options, and strong neighborhood pride. Jordan River access and proximity to the airport make it convenient. A great area for authentic local experiences off the tourist trail.</p>
+          <div class="hood-highlights">
+            <div class="hood-hl"><div class="icon" style="background: rgba(22,163,74,0.1);">🌮</div> Best authentic Latin food in SLC</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(22,163,74,0.1);">🌿</div> Jordan River Parkway access</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(22,163,74,0.1);">🏘️</div> Strong neighborhood association & community gardens</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(22,163,74,0.1);">✈️</div> Close to SLC International Airport</div>
+          </div>
+          <div class="hood-stats">
+            <div class="hood-stat"><div class="val">Walk 55</div><div class="lbl">Walkability</div></div>
+            <div class="hood-stat"><div class="val">$1,050</div><div class="lbl">Avg Rent/mo</div></div>
+            <div class="hood-stat"><div class="val">Med</div><div class="lbl">Crime vs avg</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Central Ninth -->
+      <div class="hood-card filterable-card reveal" data-category="trendy arts lgbtq foodie">
+        <div class="hood-header" style="background: linear-gradient(135deg, #0c4a6e, #7c3aed);">
+          <div class="hood-emoji">🔥</div>
+          <h3>Central Ninth</h3>
+          <div class="tagline">SLC's fastest-growing hipster hub</div>
+          <div class="hood-vibes">
+            <span class="vibe-tag">Trendy</span>
+            <span class="vibe-tag">Fast-Growing</span>
+            <span class="vibe-tag">Coffee</span>
+            <span class="vibe-tag">Bars</span>
+          </div>
+        </div>
+        <div class="hood-body">
+          <p>Central Ninth is Salt Lake City's fastest-evolving neighborhood — a compact strip of 900 S between Main and 300 W that's packed with boutique coffee shops, natural wine bars, craft cocktail lounges, and independent restaurants. Think Portland vibes in the desert. Increasingly popular with young creatives and remote workers.</p>
+          <div class="hood-highlights">
+            <div class="hood-hl"><div class="icon" style="background: rgba(12,74,110,0.1);">☕</div> Publik Coffee — SLC's best specialty roaster</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(12,74,110,0.1);">🍷</div> Natural wine bars and craft cocktail lounges</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(12,74,110,0.1);">🛍️</div> Independent boutiques and record shops</div>
+            <div class="hood-hl"><div class="icon" style="background: rgba(12,74,110,0.1);">🌿</div> Jordan River access to the west</div>
+          </div>
+          <div class="hood-stats">
+            <div class="hood-stat"><div class="val">Walk 80</div><div class="lbl">Walkability</div></div>
+            <div class="hood-stat"><div class="val">$1,400</div><div class="lbl">Avg Rent/mo</div></div>
+            <div class="hood-stat"><div class="val">Low</div><div class="lbl">Crime vs avg</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Map CTA -->
+    <div class="highlight-box reveal" style="margin-top: 3rem;">
+      <h2>Explore Neighborhoods on the Map</h2>
+      <p>Our interactive map shows crime rates, average rent, age demographics, diversity data, and more for each SLC neighborhood — with ski areas and bouldering gyms layered on top.</p>
+      <a href="map.html" class="btn btn-primary btn-lg"><i class="fas fa-map-marked-alt"></i> Open Interactive Map</a>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo"><div class="icon">🏔️</div> SLC Explorer</div><p>Your guide to Salt Lake City's diverse neighborhoods.</p></div>
+      <div class="footer-col"><h4>Explore</h4><ul><li><a href="explore.html">Things To Do</a></li><li><a href="outdoors.html">Outdoors</a></li><li><a href="food.html">Food & Drink</a></li></ul></div>
+      <div class="footer-col"><h4>Plan</h4><ul><li><a href="plan.html">Trip Planning</a></li><li><a href="map.html">Interactive Map</a></li></ul></div>
+      <div class="footer-col"><h4>Quick</h4><ul><li><a href="events.html">Events</a></li><li><a href="index.html">Home</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 SLC Explorer</p></div>
+  </div>
+</footer>
+
+<button id="back-top" title="Back to top"><i class="fas fa-arrow-up"></i></button>
+<div class="toast-container"></div>
+<script src="script.js"></script>
+<script>
+  document.querySelectorAll('.chip[data-filter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.chip[data-filter]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.filterable-card').forEach(card => {
+        const cat = card.dataset.category || '';
+        card.style.display = (filter === 'all' || cat.includes(filter)) ? '' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>

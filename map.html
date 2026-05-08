@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Map — SLC Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { overflow-x: hidden; }
+    .map-page { display: flex; flex-direction: column; height: 100vh; padding-top: 64px; }
+    #map { flex: 1; z-index: 1; }
+
+    /* Layer control panel */
+    .layer-panel {
+      position: absolute;
+      top: 80px;
+      right: 16px;
+      z-index: 500;
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      padding: 1.25rem;
+      width: 260px;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+    }
+    .layer-panel h3 {
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--gray-800);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .layer-section { margin-bottom: 1.25rem; }
+    .layer-section-title {
+      font-size: 0.68rem;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-400);
+      margin-bottom: 0.6rem;
+    }
+    .layer-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 0.75rem;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 0.35rem;
+      border: 2px solid transparent;
+    }
+    .layer-toggle:hover { background: var(--gray-50); }
+    .layer-toggle.active { background: rgba(0,48,135,0.06); border-color: rgba(0,48,135,0.2); }
+    .layer-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .layer-toggle .label {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      flex: 1;
+    }
+    .toggle-switch {
+      width: 36px;
+      height: 20px;
+      background: var(--gray-300);
+      border-radius: var(--radius-full);
+      position: relative;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: var(--transition);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .layer-toggle.active .toggle-switch { background: var(--primary); }
+    .layer-toggle.active .toggle-switch::after { left: 18px; }
+
+    /* Legend */
+    .legend-section { border-top: 1px solid var(--gray-100); padding-top: 1rem; margin-top: 1rem; }
+    .legend-title { font-size: 0.68rem; font-family: var(--font-sans); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray-400); margin-bottom: 0.6rem; }
+    .legend-gradient {
+      height: 12px;
+      border-radius: var(--radius-full);
+      margin-bottom: 0.3rem;
+    }
+    .legend-labels { display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--gray-400); }
+    .legend-items { display: flex; flex-direction: column; gap: 0.35rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--gray-600); }
+    .legend-swatch { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+    .legend-circle { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; }
+
+    /* Info popup enhancement */
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px !important;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+    }
+    .leaflet-popup-content { margin: 0 !important; }
+    .popup-card { padding: 1rem; min-width: 200px; }
+    .popup-card h4 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.5rem; color: #111827; }
+    .popup-card .popup-type { font-size: 0.7rem; font-family: 'Montserrat', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .popup-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; padding: 0.3rem 0; border-bottom: 1px solid #f3f4f6; }
+    .popup-row:last-child { border-bottom: none; }
+    .popup-row .key { color: #6b7280; }
+    .popup-row .val { font-weight: 700; color: #1f2937; }
+
+    /* Search bar on map */
+    .map-search {
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 500;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .map-search input {
+      padding: 0.6rem 1rem 0.6rem 2.5rem;
+      border-radius: var(--radius-full);
+      border: none;
+      box-shadow: var(--shadow-lg);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      width: 280px;
+      outline: none;
+    }
+    .map-search .search-icon {
+      position: absolute;
+      left: 0.85rem;
+      color: #9ca3af;
+    }
+
+    /* Floating stat cards */
+    .map-stats {
+      position: absolute;
+      bottom: 24px;
+      left: 16px;
+      z-index: 500;
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      max-width: 400px;
+    }
+    .map-stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 0.65rem 1rem;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+    }
+    .map-stat-card .icon { font-size: 1rem; }
+    .map-stat-card .val { font-family: var(--font-sans); font-weight: 800; color: var(--primary); }
+    .map-stat-card .lbl { color: var(--gray-500); font-size: 0.75rem; }
+
+    @media (max-width: 768px) {
+      .layer-panel { width: 220px; right: 8px; top: 72px; padding: 1rem; }
+      .map-search { display: none; }
+      .map-stats { bottom: 12px; left: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar" style="z-index: 600;">
+  <div class="container">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">🏔️</div> SLC Explorer</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="outdoors.html">Outdoors</a>
+      <a href="neighborhoods.html">Neighborhoods</a>
+      <a href="food.html">Food & Drink</a>
+      <a href="events.html">Events</a>
+      <a href="map.html" class="active">Map</a>
+      <a href="plan.html" class="nav-cta">Plan Visit</a>
+    </div>
+    <button class="nav-toggle"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="map-page" style="position: relative;">
+  <!-- Map Container -->
+  <div id="map"></div>
+
+  <!-- Search Bar -->
+  <div class="map-search">
+    <span class="search-icon"><i class="fas fa-search" style="font-size: 0.8rem;"></i></span>
+    <input type="text" id="map-search-input" placeholder="Search neighborhoods, ski areas…">
+  </div>
+
+  <!-- Layer Control Panel -->
+  <div class="layer-panel" id="layer-panel">
+    <h3><i class="fas fa-layer-group"></i> Map Layers</h3>
+
+    <div class="layer-section">
+      <div class="layer-section-title">Neighborhood Data</div>
+      <div class="layer-toggle active" id="toggle-crime" onclick="toggleLayer('crime', this)">
+        <div class="layer-dot" style="background: #dc2626;"></div>
+        <span class="label">Crime Rate</span>
+        <div class="toggle-switch"></div>
+      </div>
+      <div class="layer-toggle active" id="toggle-rent" onclick="toggleLayer('rent', this)">
+        <div class="layer-dot" style="background: #7c3aed;"></div>
+        <span class="label">Average Rent</span>
+        <div class="toggle-switch"></div>
+      </div>
+      <div class="layer-toggle" id="toggle-age" onclick="toggleLayer('age', this)">
+        <div class="layer-dot" style="background: #d97706;"></div>
+        <span class="label">Average Age</span>
+        <div class="toggle-switch"></div>
+      </div>
+      <div class="layer-toggle" id="toggle-diversity" onclick="toggleLayer('diversity', this)">
+        <div class="layer-dot" style="background: #059669;"></div>
+        <span class="label">Diversity Index</span>
+        <div class="toggle-switch"></div>
+      </div>
+    </div>
+
+    <div class="layer-section">
+      <div class="layer-section-title">Points of Interest</div>
+      <div class="layer-toggle active" id="toggle-ski" onclick="toggleLayer('ski', this)">
+        <div class="layer-dot" style="background: #0284c7;"></div>
+        <span class="label">Ski Resorts</span>
+        <div class="toggle-switch"></div>
+      </div>
+      <div class="layer-toggle active" id="toggle-bouldering" onclick="toggleLayer('bouldering', this)">
+        <div class="layer-dot" style="background: #92400e;"></div>
+        <span class="label">Bouldering Gyms</span>
+        <div class="toggle-switch"></div>
+      </div>
+    </div>
+
+    <!-- Dynamic Legend -->
+    <div class="legend-section" id="legend-section">
+      <div id="legend-content"></div>
+    </div>
+
+    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--gray-100);">
+      <button class="btn btn-ghost btn-sm" style="width: 100%; justify-content: center;" onclick="resetView()">
+        <i class="fas fa-crosshairs"></i> Reset View
+      </button>
+    </div>
+  </div>
+
+  <!-- Floating Stats -->
+  <div class="map-stats">
+    <div class="map-stat-card">
+      <span class="icon">👥</span>
+      <div>
+        <div class="val">200K+</div>
+        <div class="lbl">City Population</div>
+      </div>
+    </div>
+    <div class="map-stat-card">
+      <span class="icon">🎿</span>
+      <div>
+        <div class="val">7</div>
+        <div class="lbl">Ski Resorts Nearby</div>
+      </div>
+    </div>
+    <div class="map-stat-card">
+      <span class="icon">🧗</span>
+      <div>
+        <div class="val">6</div>
+        <div class="lbl">Climbing Gyms</div>
+      </div>
+    </div>
+    <div class="map-stat-card">
+      <span class="icon">🏘️</span>
+      <div>
+        <div class="val">9</div>
+        <div class="lbl">Neighborhoods</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ===== MAP INITIALIZATION =====
+const SLC_CENTER = [40.7608, -111.8910];
+const map = L.map('map', {
+  center: SLC_CENTER,
+  zoom: 12,
+  zoomControl: false
+});
+
+// Add zoom control to bottom-right to avoid layer panel overlap
+L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+// Base tile layer - CartoDB Light for clean look
+const baseLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map);
+
+// ===== NEIGHBORHOOD DATA =====
+const neighborhoods = [
+  {
+    id: 'downtown',
+    name: 'Downtown / CBD',
+    emoji: '🏙️',
+    coords: [[40.7700, -111.9050], [40.7700, -111.8800], [40.7550, -111.8800], [40.7550, -111.9050]],
+    crime: 6.2,        // crimes per 1000 residents (relative)
+    crimeLevel: 'Moderate',
+    rent: 1800,        // avg monthly rent
+    avgAge: 32,
+    diversity: 38,     // % non-white population
+    notes: 'Business & entertainment core',
+    walkScore: 96
+  },
+  {
+    id: 'sugarhouse',
+    name: 'Sugar House',
+    emoji: '🍬',
+    coords: [[40.7250, -111.8700], [40.7250, -111.8450], [40.7100, -111.8450], [40.7100, -111.8700]],
+    crime: 3.8,
+    crimeLevel: 'Low',
+    rent: 1500,
+    avgAge: 30,
+    diversity: 22,
+    notes: "SLC's most popular residential neighborhood",
+    walkScore: 88
+  },
+  {
+    id: 'avenues',
+    name: 'The Avenues',
+    emoji: '🌳',
+    coords: [[40.7950, -111.9050], [40.7950, -111.8750], [40.7700, -111.8750], [40.7700, -111.9050]],
+    crime: 2.1,
+    crimeLevel: 'Very Low',
+    rent: 1600,
+    avgAge: 38,
+    diversity: 14,
+    notes: 'Historic Victorian homes, mountain trail access',
+    walkScore: 72
+  },
+  {
+    id: 'ninth',
+    name: '9th & 9th',
+    emoji: '✨',
+    coords: [[40.7350, -111.8800], [40.7350, -111.8600], [40.7200, -111.8600], [40.7200, -111.8800]],
+    crime: 3.2,
+    crimeLevel: 'Low',
+    rent: 1450,
+    avgAge: 31,
+    diversity: 28,
+    notes: "LGBTQ+ hub, indie restaurants & shops",
+    walkScore: 82
+  },
+  {
+    id: 'capitol',
+    name: 'Capitol Hill',
+    emoji: '🏛️',
+    coords: [[40.7850, -111.9150], [40.7850, -111.8950], [40.7700, -111.8950], [40.7700, -111.9150]],
+    crime: 2.4,
+    crimeLevel: 'Very Low',
+    rent: 1350,
+    avgAge: 40,
+    diversity: 18,
+    notes: 'Historic hilltop with panoramic views',
+    walkScore: 68
+  },
+  {
+    id: 'granary',
+    name: 'Granary District',
+    emoji: '🎨',
+    coords: [[40.7600, -111.9100], [40.7600, -111.8900], [40.7450, -111.8900], [40.7450, -111.9100]],
+    crime: 5.4,
+    crimeLevel: 'Moderate',
+    rent: 1300,
+    avgAge: 29,
+    diversity: 35,
+    notes: "SLC's arts & brewery district",
+    walkScore: 74
+  },
+  {
+    id: 'university',
+    name: 'University / East Bench',
+    emoji: '🎓',
+    coords: [[40.7700, -111.8700], [40.7700, -111.8400], [40.7500, -111.8400], [40.7500, -111.8700]],
+    crime: 3.5,
+    crimeLevel: 'Low',
+    rent: 1250,
+    avgAge: 26,
+    diversity: 32,
+    notes: 'U of U campus area, museums & trails',
+    walkScore: 65
+  },
+  {
+    id: 'rosepark',
+    name: 'Rose Park',
+    emoji: '🌹',
+    coords: [[40.8200, -111.9400], [40.8200, -111.9050], [40.7900, -111.9050], [40.7900, -111.9400]],
+    crime: 7.8,
+    crimeLevel: 'Above Avg',
+    rent: 1050,
+    avgAge: 33,
+    diversity: 68,
+    notes: 'Most diverse neighborhood, affordable, growing',
+    walkScore: 55
+  },
+  {
+    id: 'centralninth',
+    name: 'Central Ninth',
+    emoji: '🔥',
+    coords: [[40.7450, -111.9100], [40.7450, -111.8800], [40.7300, -111.8800], [40.7300, -111.9100]],
+    crime: 4.1,
+    crimeLevel: 'Low-Moderate',
+    rent: 1400,
+    avgAge: 30,
+    diversity: 30,
+    notes: 'Fast-growing hipster district, coffee & bars',
+    walkScore: 80
+  }
+];
+
+// ===== COLOR FUNCTIONS =====
+function crimeColor(crime) {
+  if (crime < 3) return '#16a34a';
+  if (crime < 5) return '#d97706';
+  if (crime < 7) return '#ea580c';
+  return '#dc2626';
+}
+
+function rentColor(rent) {
+  if (rent < 1200) return '#10b981';
+  if (rent < 1500) return '#3b82f6';
+  if (rent < 1700) return '#8b5cf6';
+  return '#dc2626';
+}
+
+function ageColor(age) {
+  if (age < 28) return '#f59e0b';
+  if (age < 33) return '#3b82f6';
+  if (age < 38) return '#8b5cf6';
+  return '#6b7280';
+}
+
+function diversityColor(div) {
+  if (div < 20) return '#fde68a';
+  if (div < 35) return '#34d399';
+  if (div < 50) return '#0ea5e9';
+  return '#7c3aed';
+}
+
+// ===== LAYER GROUPS =====
+const layers = {
+  crime: L.layerGroup(),
+  rent: L.layerGroup(),
+  age: L.layerGroup(),
+  diversity: L.layerGroup(),
+  ski: L.layerGroup(),
+  bouldering: L.layerGroup()
+};
+
+// ===== NEIGHBORHOOD POLYGONS =====
+function createNeighborhoodLayer(attr, colorFn, labelFn) {
+  const group = L.layerGroup();
+  neighborhoods.forEach(n => {
+    const color = colorFn(n[attr]);
+    const poly = L.polygon(n.coords, {
+      color: color,
+      weight: 2,
+      opacity: 0.9,
+      fillColor: color,
+      fillOpacity: 0.35
+    });
+
+    poly.bindPopup(() => {
+      const val = n[attr];
+      const display = attr === 'rent' ? `$${val.toLocaleString()}/mo` :
+                      attr === 'crime' ? `${val} crimes/1000` :
+                      attr === 'age' ? `${val} yrs` :
+                      `${val}% non-white`;
+      return `
+        <div class="popup-card">
+          <div class="popup-type" style="color: ${color};">${n.emoji} Neighborhood</div>
+          <h4>${n.name}</h4>
+          <div class="popup-row"><span class="key">${labelFn}</span><span class="val" style="color: ${color};">${display}</span></div>
+          <div class="popup-row"><span class="key">Avg Rent</span><span class="val">$${n.rent.toLocaleString()}/mo</span></div>
+          <div class="popup-row"><span class="key">Crime Level</span><span class="val">${n.crimeLevel}</span></div>
+          <div class="popup-row"><span class="key">Avg Age</span><span class="val">${n.avgAge} yrs</span></div>
+          <div class="popup-row"><span class="key">Diversity</span><span class="val">${n.diversity}% non-white</span></div>
+          <div class="popup-row"><span class="key">Walk Score</span><span class="val">${n.walkScore}/100</span></div>
+          <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #6b7280;">${n.notes}</div>
+        </div>`;
+    });
+
+    // Label
+    const center = poly.getBounds().getCenter();
+    const label = L.marker(center, {
+      icon: L.divIcon({
+        className: '',
+        html: `<div style="background: white; border-radius: 6px; padding: 2px 7px; font-family: Montserrat, sans-serif; font-weight: 800; font-size: 10px; color: ${color}; box-shadow: 0 2px 8px rgba(0,0,0,0.15); white-space: nowrap; border: 1.5px solid ${color};">${n.name}</div>`,
+        iconAnchor: [60, 10]
+      }),
+      interactive: false
+    });
+
+    group.addLayer(poly);
+    group.addLayer(label);
+  });
+  return group;
+}
+
+// Build polygon layers for each attribute
+const crimePolys = createNeighborhoodLayer('crime', crimeColor, 'Crime Rate');
+const rentPolys = createNeighborhoodLayer('rent', rentColor, 'Avg Rent');
+const agePolys = createNeighborhoodLayer('avgAge', ageColor, 'Avg Age');
+const diversityPolys = createNeighborhoodLayer('diversity', diversityColor, 'Diversity');
+
+layers.crime.addLayer(crimePolys);
+layers.rent.addLayer(rentPolys);
+layers.age.addLayer(agePolys);
+layers.diversity.addLayer(diversityPolys);
+
+// ===== SKI RESORT MARKERS =====
+const skiResorts = [
+  { name: 'Snowbird', lat: 40.5817, lng: -111.6557, vertical: '3,240 ft', trails: 169, snow: '500"', runs: '3,240 acres', ticket: '$165–$215', best: 'Expert / Advanced' },
+  { name: 'Alta Ski Area', lat: 40.5887, lng: -111.6378, vertical: '2,538 ft', trails: 119, snow: '547"', runs: '2,614 acres', ticket: '$145–$195', best: 'Expert / Advanced' },
+  { name: 'Brighton Resort', lat: 40.5985, lng: -111.5828, vertical: '1,745 ft', trails: 66, snow: '500"', runs: '1,050 acres', ticket: '$125–$160', best: 'Beginners & Families' },
+  { name: 'Solitude Mountain', lat: 40.6208, lng: -111.5922, vertical: '2,047 ft', trails: 82, snow: '500"', runs: '1,200 acres', ticket: '$130–$170', best: 'All Levels' },
+  { name: 'Park City Mountain', lat: 40.6514, lng: -111.5079, vertical: '3,100 ft', trails: 330, snow: '355"', runs: '7,300 acres', ticket: '$175–$229', best: 'All Levels (biggest)' },
+  { name: 'Deer Valley', lat: 40.6374, lng: -111.4783, vertical: '3,000 ft', trails: 103, snow: '300"', runs: '2,026 acres', ticket: '$185–$240', best: 'Luxury / Skiers Only' },
+  { name: 'Sundance Resort', lat: 40.3929, lng: -111.5882, vertical: '2,150 ft', trails: 42, snow: '323"', runs: '450 acres', ticket: '$95–$130', best: 'Families / Intimate' }
+];
+
+const skiIcon = (name) => L.divIcon({
+  className: '',
+  html: `<div style="background: #0284c7; color: white; border-radius: 8px; padding: 4px 8px; font-family: Montserrat, sans-serif; font-weight: 800; font-size: 9px; white-space: nowrap; box-shadow: 0 3px 12px rgba(2,132,199,0.5); display: flex; align-items: center; gap: 4px;"><span>⛷️</span> ${name}</div>`,
+  iconAnchor: [50, 10]
+});
+
+skiResorts.forEach(resort => {
+  const marker = L.marker([resort.lat, resort.lng], { icon: skiIcon(resort.name) });
+  marker.bindPopup(`
+    <div class="popup-card">
+      <div class="popup-type" style="color: #0284c7;">⛷️ Ski Resort</div>
+      <h4>${resort.name}</h4>
+      <div class="popup-row"><span class="key">Vertical Drop</span><span class="val">${resort.vertical}</span></div>
+      <div class="popup-row"><span class="key">Skiable Area</span><span class="val">${resort.runs}</span></div>
+      <div class="popup-row"><span class="key">Annual Snowfall</span><span class="val">${resort.snow}</span></div>
+      <div class="popup-row"><span class="key">Trails</span><span class="val">${resort.trails}</span></div>
+      <div class="popup-row"><span class="key">Lift Ticket</span><span class="val">${resort.ticket}</span></div>
+      <div class="popup-row"><span class="key">Best For</span><span class="val">${resort.best}</span></div>
+    </div>`);
+  layers.ski.addLayer(marker);
+});
+
+// Distance line from SLC to each resort
+skiResorts.forEach(resort => {
+  const line = L.polyline([[SLC_CENTER[0], SLC_CENTER[1]], [resort.lat, resort.lng]], {
+    color: '#0284c7',
+    weight: 1.5,
+    opacity: 0.35,
+    dashArray: '6, 8'
+  });
+  layers.ski.addLayer(line);
+});
+
+// ===== BOULDERING GYM MARKERS =====
+const boulderingGyms = [
+  { name: 'The Front Climbing Club', lat: 40.7350, lng: -111.8944, address: '1470 S 400 W, SLC', features: 'Top-rope, Lead, Bouldering', price: '~$22/day', rating: '4.8★', note: 'Premier facility, 2 locations' },
+  { name: 'Momentum Millcreek', lat: 40.6862, lng: -111.8562, address: '3863 Wasatch Blvd, SLC', features: 'Massive bouldering cave, Lead, TR', price: '~$20/day', rating: '4.7★', note: '3 Utah locations' },
+  { name: 'Momentum Murray', lat: 40.6596, lng: -111.8949, address: '220 W 7200 S, Midvale', features: 'Bouldering, Lead, Youth programs', price: '~$20/day', rating: '4.7★', note: 'Family-friendly' },
+  { name: 'Momentum Sandy', lat: 40.5654, lng: -111.8549, address: '44 E 9400 S, Sandy', features: 'Large bouldering, yoga, fitness', price: '~$20/day', rating: '4.6★', note: 'South Valley location' },
+  { name: 'Elevate Climbing Walls', lat: 40.6380, lng: -111.8743, address: '7550 S 700 E, Midvale', features: 'Modern walls, training room', price: '~$18/day', rating: '4.5★', note: 'Newer facility' },
+  { name: 'VoWall Climbing Center', lat: 40.6620, lng: -111.8880, address: '744 E Winchester St, Murray', features: 'Bouldering, community-focused', price: '~$16/day', rating: '4.4★', note: 'Best value' }
+];
+
+const boulderIcon = (name) => L.divIcon({
+  className: '',
+  html: `<div style="background: #92400e; color: white; border-radius: 8px; padding: 4px 8px; font-family: Montserrat, sans-serif; font-weight: 800; font-size: 9px; white-space: nowrap; box-shadow: 0 3px 12px rgba(146,64,14,0.5); display: flex; align-items: center; gap: 4px;"><span>🧗</span> ${name.split(' ')[0]} ${name.split(' ')[1] || ''}</div>`,
+  iconAnchor: [55, 10]
+});
+
+boulderingGyms.forEach(gym => {
+  const marker = L.marker([gym.lat, gym.lng], { icon: boulderIcon(gym.name) });
+  marker.bindPopup(`
+    <div class="popup-card">
+      <div class="popup-type" style="color: #92400e;">🧗 Bouldering / Climbing Gym</div>
+      <h4>${gym.name}</h4>
+      <div class="popup-row"><span class="key">Address</span><span class="val" style="font-size: 0.78rem;">${gym.address}</span></div>
+      <div class="popup-row"><span class="key">Features</span><span class="val" style="font-size: 0.78rem;">${gym.features}</span></div>
+      <div class="popup-row"><span class="key">Day Pass</span><span class="val">${gym.price}</span></div>
+      <div class="popup-row"><span class="key">Rating</span><span class="val">${gym.rating}</span></div>
+      <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #6b7280;">${gym.note}</div>
+    </div>`);
+  layers.bouldering.addLayer(marker);
+});
+
+// ===== ADD INITIAL LAYERS =====
+layers.crime.addTo(map);
+layers.rent.addTo(map);
+layers.ski.addTo(map);
+layers.bouldering.addTo(map);
+
+// ===== SLC CENTER MARKER =====
+const slcMarker = L.marker(SLC_CENTER, {
+  icon: L.divIcon({
+    className: '',
+    html: `<div style="background: #003087; color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 1rem; box-shadow: 0 4px 15px rgba(0,48,135,0.5); border: 3px solid white;">🏙️</div>`,
+    iconAnchor: [18, 18]
+  })
+}).addTo(map);
+slcMarker.bindPopup(`<div class="popup-card"><h4>Salt Lake City</h4><div class="popup-row"><span class="key">Population</span><span class="val">200,000+</span></div><div class="popup-row"><span class="key">Elevation</span><span class="val">4,327 ft</span></div><div class="popup-row"><span class="key">Metro Pop</span><span class="val">1.2 Million</span></div></div>`);
+
+// ===== LAYER TOGGLE FUNCTION =====
+const activeLayerState = {
+  crime: true,
+  rent: true,
+  age: false,
+  diversity: false,
+  ski: true,
+  bouldering: true
+};
+
+function toggleLayer(name, el) {
+  activeLayerState[name] = !activeLayerState[name];
+  el.classList.toggle('active');
+
+  if (activeLayerState[name]) {
+    layers[name].addTo(map);
+  } else {
+    map.removeLayer(layers[name]);
+  }
+
+  updateLegend();
+}
+
+function resetView() {
+  map.setView(SLC_CENTER, 12);
+}
+
+// ===== LEGEND =====
+function updateLegend() {
+  const container = document.getElementById('legend-content');
+  let html = '';
+
+  const activeLayers = Object.keys(activeLayerState).filter(k => activeLayerState[k]);
+
+  if (activeLayers.includes('crime')) {
+    html += `
+      <div style="margin-bottom: 1rem;">
+        <div class="legend-title">Crime Rate (per 1,000 residents)</div>
+        <div class="legend-gradient" style="background: linear-gradient(to right, #16a34a, #d97706, #ea580c, #dc2626);"></div>
+        <div class="legend-labels"><span>Very Low</span><span>Moderate</span><span>High</span></div>
+      </div>`;
+  }
+
+  if (activeLayers.includes('rent')) {
+    html += `
+      <div style="margin-bottom: 1rem;">
+        <div class="legend-title">Average Monthly Rent</div>
+        <div class="legend-gradient" style="background: linear-gradient(to right, #10b981, #3b82f6, #8b5cf6, #dc2626);"></div>
+        <div class="legend-labels"><span>&lt;$1,200</span><span>$1,500</span><span>$1,800+</span></div>
+      </div>`;
+  }
+
+  if (activeLayers.includes('age')) {
+    html += `
+      <div style="margin-bottom: 1rem;">
+        <div class="legend-title">Average Resident Age</div>
+        <div class="legend-items">
+          <div class="legend-item"><div class="legend-swatch" style="background:#f59e0b;"></div> Under 28 yrs</div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#3b82f6;"></div> 28–32 yrs</div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#8b5cf6;"></div> 33–37 yrs</div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#6b7280;"></div> 38+ yrs</div>
+        </div>
+      </div>`;
+  }
+
+  if (activeLayers.includes('diversity')) {
+    html += `
+      <div style="margin-bottom: 1rem;">
+        <div class="legend-title">Diversity Index (% non-white)</div>
+        <div class="legend-gradient" style="background: linear-gradient(to right, #fde68a, #34d399, #0ea5e9, #7c3aed);"></div>
+        <div class="legend-labels"><span>Homogeneous</span><span>Mixed</span><span>Diverse</span></div>
+      </div>`;
+  }
+
+  if (activeLayers.includes('ski')) {
+    html += `
+      <div style="margin-bottom: 0.75rem;">
+        <div class="legend-title">Points of Interest</div>
+        <div class="legend-items">
+          <div class="legend-item"><div class="legend-circle" style="background: #0284c7; color: white;">⛷</div> Ski Resort</div>`;
+  }
+
+  if (activeLayers.includes('bouldering')) {
+    if (!activeLayers.includes('ski')) {
+      html += `<div style="margin-bottom: 0.75rem;"><div class="legend-title">Points of Interest</div><div class="legend-items">`;
+    }
+    html += `<div class="legend-item"><div class="legend-circle" style="background: #92400e; color: white;">🧗</div> Bouldering Gym</div>`;
+  }
+
+  if (activeLayers.includes('ski') || activeLayers.includes('bouldering')) {
+    html += `</div></div>`;
+  }
+
+  if (!html) {
+    html = '<div style="font-size: 0.82rem; color: var(--gray-400); text-align: center; padding: 0.5rem;">Enable a layer to see its legend</div>';
+  }
+
+  container.innerHTML = html;
+}
+
+updateLegend();
+
+// ===== SEARCH FUNCTIONALITY =====
+document.getElementById('map-search-input').addEventListener('input', function() {
+  const term = this.value.toLowerCase();
+  if (!term) return;
+
+  const n = neighborhoods.find(h => h.name.toLowerCase().includes(term));
+  if (n) {
+    const center = L.latLngBounds(n.coords).getCenter();
+    map.flyTo(center, 15, { duration: 1.2 });
+    return;
+  }
+
+  const ski = skiResorts.find(s => s.name.toLowerCase().includes(term));
+  if (ski) {
+    map.flyTo([ski.lat, ski.lng], 14, { duration: 1.2 });
+    return;
+  }
+
+  const gym = boulderingGyms.find(g => g.name.toLowerCase().includes(term));
+  if (gym) {
+    map.flyTo([gym.lat, gym.lng], 15, { duration: 1.2 });
+  }
+});
+
+// ===== KEYBOARD NAV =====
+document.getElementById('map-search-input').addEventListener('keydown', e => {
+  if (e.key === 'Escape') { e.target.value = ''; e.target.blur(); }
+});
+</script>
+
+<!-- Navbar script -->
+<script>
+const navbar = document.getElementById('navbar');
+navbar.classList.add('scrolled');
+document.querySelector('.nav-toggle')?.addEventListener('click', () => {
+  document.querySelector('.nav-links').classList.toggle('open');
+});
+</script>
+
+</body>
+</html>

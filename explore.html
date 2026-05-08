@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Things To Do — SLC Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .fav-btn {
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: var(--gray-300);
+      transition: var(--transition);
+      padding: 0.2rem;
+    }
+    .fav-btn:hover, .fav-btn.favorited { color: var(--secondary); }
+    .result-count {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 1.5rem;
+    }
+    .result-count span { color: var(--primary); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="container">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🏔️</div>
+      SLC Explorer
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="explore.html" class="active">Explore</a>
+      <a href="outdoors.html">Outdoors</a>
+      <a href="neighborhoods.html">Neighborhoods</a>
+      <a href="food.html">Food & Drink</a>
+      <a href="events.html">Events</a>
+      <a href="map.html">Map</a>
+      <a href="plan.html" class="nav-cta">Plan Visit</a>
+    </div>
+    <button class="nav-toggle"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg" style="background: linear-gradient(135deg, #001a52 0%, #003087 50%, #1a56db 100%);"></div>
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right" style="font-size:0.7rem;"></i> Things To Do</div>
+    <h1>Things To Do in SLC</h1>
+    <p>From ancient history to modern arts — over 20 incredible ways to spend your time in Salt Lake City.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- Filter Bar -->
+    <div class="filter-bar reveal">
+      <div class="search-input-wrap">
+        <span class="icon"><i class="fas fa-search"></i></span>
+        <input type="text" class="search-input" placeholder="Search attractions…">
+      </div>
+      <div class="filter-chips">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip cat-museum" data-filter="museum">Museums</button>
+        <button class="chip cat-park" data-filter="park">Parks</button>
+        <button class="chip cat-arts" data-filter="arts">Arts</button>
+        <button class="chip cat-sports" data-filter="sports">Sports</button>
+        <button class="chip cat-family" data-filter="family">Family</button>
+        <button class="chip cat-nightlife" data-filter="nature">Nature</button>
+      </div>
+    </div>
+
+    <p class="result-count">Showing <span id="card-count">22</span> attractions</p>
+
+    <!-- Cards Grid -->
+    <div class="cards-grid grid-auto" id="cards-container">
+
+      <!-- Museum Cards -->
+      <div class="card filterable-card reveal" data-category="museum" onclick="openModal('modal-nhmu')">
+        <div class="card-img bg-museum">🦕</div>
+        <div class="card-body">
+          <span class="card-tag tag-museum">Museum</span>
+          <h3 class="card-title">Natural History Museum of Utah</h3>
+          <p class="card-desc">One of America's finest natural history museums, home to world-class dinosaur fossils, stunning geological exhibits, and Indigenous heritage collections.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★★</span><span class="count">(4.8 · 6.2k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="nhmu" onclick="event.stopPropagation(); toggleFavorite('nhmu', 'Natural History Museum')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="museum" onclick="openModal('modal-clark')">
+        <div class="card-img" style="background: linear-gradient(135deg, #0c4a6e, #0284c7);">🔭</div>
+        <div class="card-body">
+          <span class="card-tag tag-museum">Museum</span>
+          <h3 class="card-title">Clark Planetarium</h3>
+          <p class="card-desc">Free admission to exhibits exploring space, astronomy, and science. IMAX dome shows, interactive displays, and special telescoping nights.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.4 · 2.1k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="clark" onclick="event.stopPropagation(); toggleFavorite('clark', 'Clark Planetarium')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="museum arts" onclick="openModal('modal-leonardo')">
+        <div class="card-img" style="background: linear-gradient(135deg, #db2777, #9d174d);">💡</div>
+        <div class="card-body">
+          <span class="card-tag tag-arts">Arts & Science</span>
+          <h3 class="card-title">The Leonardo Museum</h3>
+          <p class="card-desc">A unique intersection of art, science, and technology. Rotating world-class exhibitions, hands-on STEAM activities, and a makerspace for all ages.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.3 · 1.8k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="leonardo" onclick="event.stopPropagation(); toggleFavorite('leonardo', 'The Leonardo')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="museum history" onclick="openModal('modal-pioneer')">
+        <div class="card-img" style="background: linear-gradient(135deg, #57534e, #1c1917);">🏺</div>
+        <div class="card-body">
+          <span class="card-tag tag-history">History</span>
+          <h3 class="card-title">Pioneer Memorial Museum</h3>
+          <p class="card-desc">Utah's largest collection of pioneer artifacts — covering the epic 19th-century Mormon migration across the American West.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.2 · 890 reviews)</span></div>
+            <button class="fav-btn" data-fav-id="pioneer" onclick="event.stopPropagation(); toggleFavorite('pioneer', 'Pioneer Memorial Museum')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Parks -->
+      <div class="card filterable-card reveal" data-category="park nature" onclick="openModal('modal-liberty')">
+        <div class="card-img bg-park">🌳</div>
+        <div class="card-body">
+          <span class="card-tag tag-park">Park</span>
+          <h3 class="card-title">Liberty Park</h3>
+          <p class="card-desc">SLC's beloved urban oasis — 80 acres of walking paths, a children's zoo, tennis courts, a skate park, and the best summer picnic spots in the city.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★★</span><span class="count">(4.7 · 5.3k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="liberty" onclick="event.stopPropagation(); toggleFavorite('liberty', 'Liberty Park')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="park nature" onclick="openModal('modal-redbutte')">
+        <div class="card-img" style="background: linear-gradient(135deg, #16a34a, #064e3b);">🌸</div>
+        <div class="card-body">
+          <span class="card-tag tag-park">Garden</span>
+          <h3 class="card-title">Red Butte Garden</h3>
+          <p class="card-desc">Stunning 100-acre botanical garden climbing the Wasatch foothills with mountain views, native plant collections, and legendary summer concert series.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★★</span><span class="count">(4.8 · 4.1k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="redbutte" onclick="event.stopPropagation(); toggleFavorite('redbutte', 'Red Butte Garden')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="park nature" onclick="openModal('modal-memory')">
+        <div class="card-img" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6);">🌿</div>
+        <div class="card-body">
+          <span class="card-tag tag-park">Park</span>
+          <h3 class="card-title">Memory Grove Park</h3>
+          <p class="card-desc">A serene 15-acre canyon park with war memorials, a creek, and towering trees — the perfect escape just minutes from downtown.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.5 · 1.4k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="memory" onclick="event.stopPropagation(); toggleFavorite('memory', 'Memory Grove')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arts -->
+      <div class="card filterable-card reveal" data-category="arts" onclick="openModal('modal-slac')">
+        <div class="card-img bg-arts">🎨</div>
+        <div class="card-body">
+          <span class="card-tag tag-arts">Gallery</span>
+          <h3 class="card-title">Utah Museum of Fine Arts</h3>
+          <p class="card-desc">Utah's largest art museum with 17,000+ works spanning ancient Egypt to contemporary Utah artists — free admission on Sundays.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.4 · 2.3k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="umfa" onclick="event.stopPropagation(); toggleFavorite('umfa', 'UMFA')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="arts" onclick="openModal('modal-gilgal')">
+        <div class="card-img" style="background: linear-gradient(135deg, #7c3aed, #4c1d95);">🗿</div>
+        <div class="card-body">
+          <span class="card-tag tag-arts">Outdoor Art</span>
+          <h3 class="card-title">Gilgal Sculpture Garden</h3>
+          <p class="card-desc">One of SLC's most unusual gems — a hidden garden with 12 original sculptures and 70 carved stones created by a local LDS bishop. Wonderfully bizarre.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.5 · 1.1k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="gilgal" onclick="event.stopPropagation(); toggleFavorite('gilgal', 'Gilgal Sculpture Garden')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sports / Entertainment -->
+      <div class="card filterable-card reveal" data-category="sports" onclick="openModal('modal-delta')">
+        <div class="card-img bg-sports">🏀</div>
+        <div class="card-body">
+          <span class="card-tag tag-sports">Sports</span>
+          <h3 class="card-title">Delta Center — Utah Jazz</h3>
+          <p class="card-desc">Home of the Utah Jazz and new Utah Hockey Club — catch an NBA game or NHL game at this revamped downtown arena with incredible atmosphere.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★★</span><span class="count">(4.7 · 8.9k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="delta" onclick="event.stopPropagation(); toggleFavorite('delta', 'Delta Center')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="sports" onclick="openModal('modal-rsl')">
+        <div class="card-img" style="background: linear-gradient(135deg, #7f1d1d, #dc2626);">⚽</div>
+        <div class="card-body">
+          <span class="card-tag tag-sports">Sports</span>
+          <h3 class="card-title">Real Salt Lake — America First Field</h3>
+          <p class="card-desc">Catch Major League Soccer at one of the league's most beloved stadiums in Sandy. Passionate fans, great tailgating, and a fantastic game-day experience.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.5 · 3.2k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="rsl" onclick="event.stopPropagation(); toggleFavorite('rsl', 'Real Salt Lake')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Family -->
+      <div class="card filterable-card reveal" data-category="family" onclick="openModal('modal-hogle')">
+        <div class="card-img" style="background: linear-gradient(135deg, #d97706, #92400e);">🦁</div>
+        <div class="card-body">
+          <span class="card-tag tag-family">Family</span>
+          <h3 class="card-title">Hogle Zoo</h3>
+          <p class="card-desc">Utah's most-visited attraction with 800+ animals, a zoo train, carousel, and the thrilling Rocky Shores exhibit with polar bears and sea lions.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.4 · 7.1k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="hogle" onclick="event.stopPropagation(); toggleFavorite('hogle', 'Hogle Zoo')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="family" onclick="openModal('modal-tracy')">
+        <div class="card-img" style="background: linear-gradient(135deg, #0284c7, #0c4a6e);">🦜</div>
+        <div class="card-body">
+          <span class="card-tag tag-family">Family</span>
+          <h3 class="card-title">Tracy Aviary</h3>
+          <p class="card-desc">One of the oldest public aviaries in the US, home to 400+ birds from 135 species. Free-flight shows, bird feeding, and a gorgeous Liberty Park setting.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.4 · 1.9k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="tracy" onclick="event.stopPropagation(); toggleFavorite('tracy', 'Tracy Aviary')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="family history" onclick="openModal('modal-thisplace')">
+        <div class="card-img" style="background: linear-gradient(135deg, #78716c, #44403c);">🏕️</div>
+        <div class="card-body">
+          <span class="card-tag tag-history">History</span>
+          <h3 class="card-title">This Is The Place Heritage Park</h3>
+          <p class="card-desc">A living history museum at the mouth of Emigration Canyon — where Brigham Young first viewed the valley. Costumed guides, pioneer village, and wagon rides.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.3 · 2.5k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="thisplace" onclick="event.stopPropagation(); toggleFavorite('thisplace', 'This Is The Place')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nature -->
+      <div class="card filterable-card reveal" data-category="nature" onclick="openModal('modal-gsl')">
+        <div class="card-img" style="background: linear-gradient(135deg, #0284c7, #7dd3fc, #f0abfc);">🌊</div>
+        <div class="card-body">
+          <span class="card-tag tag-nature">Nature</span>
+          <h3 class="card-title">Great Salt Lake</h3>
+          <p class="card-desc">The largest saltwater lake in the Western Hemisphere — explore Antelope Island State Park, spot millions of migratory birds, and witness surreal pink-hued waters.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.3 · 3.8k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="gsl" onclick="event.stopPropagation(); toggleFavorite('gsl', 'Great Salt Lake')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="nature" onclick="openModal('modal-antelope')">
+        <div class="card-img" style="background: linear-gradient(135deg, #065f46, #10b981);">🦬</div>
+        <div class="card-body">
+          <span class="card-tag tag-nature">State Park</span>
+          <h3 class="card-title">Antelope Island State Park</h3>
+          <p class="card-desc">Utah's largest state park on an island in the Great Salt Lake — home to bison, pronghorn, and some of the region's best hiking with panoramic lake views.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★★</span><span class="count">(4.6 · 4.5k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="antelope" onclick="event.stopPropagation(); toggleFavorite('antelope', 'Antelope Island')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Landmark -->
+      <div class="card filterable-card reveal" data-category="history arts" onclick="openModal('modal-capitol')">
+        <div class="card-img" style="background: linear-gradient(135deg, #c8102e, #003087);">🏛️</div>
+        <div class="card-body">
+          <span class="card-tag tag-history">Landmark</span>
+          <h3 class="card-title">Utah State Capitol</h3>
+          <p class="card-desc">One of the most beautiful state capitols in the US — a stunning Corinthian-columned dome building atop Capitol Hill with sweeping valley views and free tours.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★★</span><span class="count">(4.7 · 3.3k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="capitol" onclick="event.stopPropagation(); toggleFavorite('capitol', 'Utah State Capitol')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="history" onclick="openModal('modal-temple')">
+        <div class="card-img" style="background: linear-gradient(135deg, #003087, #1a56db);">⛪</div>
+        <div class="card-body">
+          <span class="card-tag tag-history">Landmark</span>
+          <h3 class="card-title">Temple Square</h3>
+          <p class="card-desc">The global center of the Church of Jesus Christ of Latter-day Saints — a stunning 10-acre plaza with the iconic Salt Lake Temple, Tabernacle, and Assembly Hall.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★★</span><span class="count">(4.6 · 12k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="temple" onclick="event.stopPropagation(); toggleFavorite('temple', 'Temple Square')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="arts nightlife" onclick="openModal('modal-eccles')">
+        <div class="card-img" style="background: linear-gradient(135deg, #db2777, #7c3aed);">🎭</div>
+        <div class="card-body">
+          <span class="card-tag tag-arts">Performing Arts</span>
+          <h3 class="card-title">Capitol Theatre & Eccles</h3>
+          <p class="card-desc">SLC's premier performing arts venues hosting Broadway tours, Utah Symphony, Ballet West, and international artists throughout the year.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★★</span><span class="count">(4.8 · 2.7k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="eccles" onclick="event.stopPropagation(); toggleFavorite('eccles', 'Capitol Theatre')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="family" onclick="openModal('modal-olympic')">
+        <div class="card-img" style="background: linear-gradient(135deg, #1e3a8a, #2563eb);">🏅</div>
+        <div class="card-body">
+          <span class="card-tag tag-family">Recreation</span>
+          <h3 class="card-title">Utah Olympic Park</h3>
+          <p class="card-desc">Legacy of the 2002 Winter Olympics — ride an actual Olympic bobsled, learn to ski jump, visit the museum, and try zip-lining. Amazing year-round destination.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★★</span><span class="count">(4.7 · 5.8k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="olympic" onclick="event.stopPropagation(); toggleFavorite('olympic', 'Utah Olympic Park')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="family" onclick="openModal('modal-wheeler')">
+        <div class="card-img" style="background: linear-gradient(135deg, #d97706, #064e3b);">🚜</div>
+        <div class="card-body">
+          <span class="card-tag tag-family">Family</span>
+          <h3 class="card-title">Wheeler Historic Farm</h3>
+          <p class="card-desc">A working 75-acre Victorian-era farm where kids can interact with farm animals, take wagon rides, and learn about late 1800s Utah agricultural life.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.4 · 1.7k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="wheeler" onclick="event.stopPropagation(); toggleFavorite('wheeler', 'Wheeler Farm')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card filterable-card reveal" data-category="arts nightlife" onclick="openModal('modal-gallivan')">
+        <div class="card-img" style="background: linear-gradient(135deg, #0c4a6e, #0ea5e9);">🌆</div>
+        <div class="card-body">
+          <span class="card-tag tag-arts">Public Space</span>
+          <h3 class="card-title">Gallivan Center</h3>
+          <p class="card-desc">Downtown SLC's beloved outdoor plaza — home to free summer concerts, an ice rink in winter, food trucks, a chess park, and the Festival of Colors.</p>
+          <div class="card-footer">
+            <div class="rating"><span class="stars">★★★★☆</span><span class="count">(4.3 · 3.1k reviews)</span></div>
+            <button class="fav-btn" data-fav-id="gallivan" onclick="event.stopPropagation(); toggleFavorite('gallivan', 'Gallivan Center')" title="Add to favorites">♡</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="no-results-msg no-results" style="display:none;">
+      <div class="icon">🔍</div>
+      <h3>No attractions found</h3>
+      <p>Try a different search term or filter.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-nhmu">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Natural History Museum of Utah</h3>
+      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-hero bg-museum">🦕</div>
+    <div class="modal-body">
+      <div class="rating mb-2"><span class="stars">★★★★★</span><span class="count" style="font-size:0.9rem; margin-left:0.4rem;">4.8 · 6,200+ reviews</span></div>
+      <p>The Natural History Museum of Utah is one of North America's finest natural history museums. Located in the stunning Rio Tinto Center — an award-winning building that rises from the foothills like the rocky landscape it celebrates — the museum features world-class dinosaur fossil collections, including some of Utah's own species discovered in the Morrison Formation.</p>
+      <p>Beyond dinosaurs, explore Utah's deep geological history, ancient Indigenous cultures spanning 12,000 years, and the remarkable Great Salt Lake ecosystem.</p>
+      <div class="modal-info-grid">
+        <div class="info-item"><div class="info-label">Address</div><div class="info-value">301 Wakara Way, Salt Lake City</div></div>
+        <div class="info-item"><div class="info-label">Hours</div><div class="info-value">Daily 9:30am – 5:30pm</div></div>
+        <div class="info-item"><div class="info-label">Admission</div><div class="info-value">Adults $21 · Kids $14</div></div>
+        <div class="info-item"><div class="info-label">Time Needed</div><div class="info-value">2–4 hours</div></div>
+      </div>
+      <a href="#" class="btn btn-solid" style="width: 100%; justify-content: center;">Visit Website <i class="fas fa-external-link-alt"></i></a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-liberty">
+  <div class="modal">
+    <div class="modal-header"><h3>Liberty Park</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div>
+    <div class="modal-hero bg-park">🌳</div>
+    <div class="modal-body">
+      <div class="rating mb-2"><span class="stars">★★★★★</span><span class="count" style="font-size:0.9rem; margin-left:0.4rem;">4.7 · 5,300+ reviews</span></div>
+      <p>Liberty Park is Salt Lake City's crown jewel urban park — 80 acres of lush green space in the heart of the city. With a 6-acre pond, a children's amusement area, tennis courts, a skate park, and an outdoor swimming pool, it's the city's ultimate gathering place.</p>
+      <p>On weekends it buzzes with activity: families picnicking, musicians jamming, cyclists circling the perimeter path, and residents of every background enjoying this democratic outdoor space.</p>
+      <div class="modal-info-grid">
+        <div class="info-item"><div class="info-label">Address</div><div class="info-value">600 E 900 S, Salt Lake City</div></div>
+        <div class="info-item"><div class="info-label">Hours</div><div class="info-value">Open Daily 6am – 10pm</div></div>
+        <div class="info-item"><div class="info-label">Admission</div><div class="info-value">Free</div></div>
+        <div class="info-item"><div class="info-label">Best For</div><div class="info-value">Families, picnics, sports</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-temple">
+  <div class="modal">
+    <div class="modal-header"><h3>Temple Square</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div>
+    <div class="modal-hero" style="background: linear-gradient(135deg, #003087, #1a56db);">⛪</div>
+    <div class="modal-body">
+      <div class="rating mb-2"><span class="stars">★★★★★</span><span class="count" style="font-size:0.9rem; margin-left:0.4rem;">4.6 · 12,000+ reviews</span></div>
+      <p>Temple Square is the centerpiece of downtown Salt Lake City and the global headquarters of The Church of Jesus Christ of Latter-day Saints. The iconic Salt Lake Temple — 40 years in the making and completed in 1893 — dominates the skyline with its six granite spires reaching 210 feet into the sky.</p>
+      <p>The square also contains the historic Tabernacle (home to the famous Mormon Tabernacle Choir), Assembly Hall, the Family History Library, and beautifully manicured gardens. The Christmas lights display is world-famous, drawing hundreds of thousands of visitors each December.</p>
+      <div class="modal-info-grid">
+        <div class="info-item"><div class="info-label">Address</div><div class="info-value">50 N Temple, Salt Lake City</div></div>
+        <div class="info-item"><div class="info-label">Hours</div><div class="info-value">Daily 9am – 10pm (grounds)</div></div>
+        <div class="info-item"><div class="info-label">Admission</div><div class="info-value">Free</div></div>
+        <div class="info-item"><div class="info-label">Don't Miss</div><div class="info-value">Tabernacle Choir rehearsals</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Generic modals for other attractions -->
+<div class="modal-overlay" id="modal-clark"><div class="modal"><div class="modal-header"><h3>Clark Planetarium</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #0c4a6e, #0284c7);">🔭</div><div class="modal-body"><div class="rating mb-2"><span class="stars">★★★★☆</span><span class="count" style="font-size:0.9rem; margin-left:0.4rem;">4.4 · 2,100+ reviews</span></div><p>Downtown SLC's free science destination — explore the universe through interactive exhibits, then catch an IMAX dome show for an immersive space journey.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">110 S 400 W, Salt Lake City</div></div><div class="info-item"><div class="info-label">Hours</div><div class="info-value">Mon–Thu 10:30am–8pm</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">Exhibits free · IMAX from $9</div></div><div class="info-item"><div class="info-label">Best For</div><div class="info-value">Families, science lovers</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-delta"><div class="modal"><div class="modal-header"><h3>Delta Center</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero bg-sports">🏀</div><div class="modal-body"><div class="rating mb-2"><span class="stars">★★★★★</span><span class="count" style="font-size:0.9rem; margin-left:0.4rem;">4.7 · 8,900+ reviews</span></div><p>Home to the Utah Jazz (NBA) and Utah Hockey Club (NHL) — the newly renovated Delta Center offers world-class sports entertainment in the heart of downtown. The Jazz have one of basketball's most passionate fanbases.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">301 S Temple, Salt Lake City</div></div><div class="info-item"><div class="info-label">Capacity</div><div class="info-value">18,306 seats</div></div><div class="info-item"><div class="info-label">Teams</div><div class="info-value">Utah Jazz · Utah Hockey Club</div></div><div class="info-item"><div class="info-label">Parking</div><div class="info-value">Adjacent garages + TRAX</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-antelope"><div class="modal"><div class="modal-header"><h3>Antelope Island State Park</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #065f46, #10b981);">🦬</div><div class="modal-body"><div class="rating mb-2"><span class="stars">★★★★★</span><span class="count" style="font-size:0.9rem; margin-left:0.4rem;">4.6 · 4,500+ reviews</span></div><p>Utah's largest state park sits on a 28,000-acre island in the Great Salt Lake, accessible via a 7.2-mile causeway. Home to 700+ free-roaming bison, pronghorn antelope, coyotes, and millions of migratory shorebirds.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Distance</div><div class="info-value">41 miles from SLC</div></div><div class="info-item"><div class="info-label">Hours</div><div class="info-value">Daily 6am – 10pm</div></div><div class="info-item"><div class="info-label">Day Use Fee</div><div class="info-value">$15/vehicle</div></div><div class="info-item"><div class="info-label">Best For</div><div class="info-value">Hiking, wildlife, photography</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-capitol"><div class="modal"><div class="modal-header"><h3>Utah State Capitol</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #c8102e, #003087);">🏛️</div><div class="modal-body"><div class="rating mb-2"><span class="stars">★★★★★</span><span class="count" style="font-size:0.9rem; margin-left:0.4rem;">4.7 · 3,300+ reviews</span></div><p>Completed in 1916 and recently renovated, the Utah State Capitol is one of America's most beautiful state capitol buildings. Free guided tours daily. The hilltop location offers sweeping views of the entire Salt Lake Valley and Wasatch Mountains.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">350 State St, Salt Lake City</div></div><div class="info-item"><div class="info-label">Tours</div><div class="info-value">Free hourly, M–F</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">Free</div></div><div class="info-item"><div class="info-label">Don't Miss</div><div class="info-value">Valley views from the dome</div></div></div></div></div></div>
+
+<!-- Placeholder modals for remaining attractions -->
+<div class="modal-overlay" id="modal-leonardo"><div class="modal"><div class="modal-header"><h3>The Leonardo Museum</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #db2777, #9d174d);">💡</div><div class="modal-body"><p>Where art, science, and technology converge. Home to world-class rotating exhibitions, a makerspace, STEAM workshops, and interactive learning experiences for all ages.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">209 E 500 S, Salt Lake City</div></div><div class="info-item"><div class="info-label">Hours</div><div class="info-value">Wed–Sun 10am–5pm</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">Adults $15 · Youth $11</div></div><div class="info-item"><div class="info-label">Best For</div><div class="info-value">Families, curious minds</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-pioneer"><div class="modal"><div class="modal-header"><h3>Pioneer Memorial Museum</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #57534e, #1c1917);">🏺</div><div class="modal-body"><p>Utah's largest collection of pioneer artifacts, covering the remarkable 1847 westward migration and early settlement of the Salt Lake Valley. 38 rooms of artifacts, furniture, tools, and photographs.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">300 N Main St, Salt Lake City</div></div><div class="info-item"><div class="info-label">Hours</div><div class="info-value">Mon–Sat 9am–5pm</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">Free</div></div><div class="info-item"><div class="info-label">Time Needed</div><div class="info-value">1–2 hours</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-redbutte"><div class="modal"><div class="modal-header"><h3>Red Butte Garden</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #16a34a, #064e3b);">🌸</div><div class="modal-body"><p>100 acres of stunning botanical gardens on the University of Utah's upper campus, featuring four miles of nature trails, stunning mountain views, and a legendary summer outdoor concert series.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">300 Wakara Way, Salt Lake City</div></div><div class="info-item"><div class="info-label">Hours</div><div class="info-value">Daily 9am–8pm (summer)</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">Adults $12 · Kids $6</div></div><div class="info-item"><div class="info-label">Don't Miss</div><div class="info-value">Summer concert series</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-memory"><div class="modal"><div class="modal-header"><h3>Memory Grove Park</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6);">🌿</div><div class="modal-body"><p>A serene canyon park just minutes from downtown, featuring war memorials, City Creek running through the middle, and towering cottonwood trees. Perfect for a peaceful afternoon stroll or run.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">300 N Canyon Rd, SLC</div></div><div class="info-item"><div class="info-label">Hours</div><div class="info-value">Always Open</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">Free</div></div><div class="info-item"><div class="info-label">Best For</div><div class="info-value">Walking, jogging, picnics</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-slac"><div class="modal"><div class="modal-header"><h3>Utah Museum of Fine Arts</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero bg-arts">🎨</div><div class="modal-body"><p>Utah's largest art museum with over 17,000 works spanning 5,000 years — from ancient Egyptian art to contemporary Utah paintings. Free admission every Sunday.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">410 Campus Center Dr, U of U</div></div><div class="info-item"><div class="info-label">Hours</div><div class="info-value">Tue–Sun 10am–5pm</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">$9 · Free Sundays</div></div><div class="info-item"><div class="info-label">Highlights</div><div class="info-value">Utah artists, ancient Egypt</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-gilgal"><div class="modal"><div class="modal-header"><h3>Gilgal Sculpture Garden</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #7c3aed, #4c1d95);">🗿</div><div class="modal-body"><p>One of SLC's most wonderfully bizarre hidden gems — a small private garden featuring 12 original sculptures and 70 carved stones created between 1945–1963 by a local mason. Surreal, cryptic, and utterly unique.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">749 E 500 S, Salt Lake City</div></div><div class="info-item"><div class="info-label">Hours</div><div class="info-value">Daily 8am – dusk</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">Free</div></div><div class="info-item"><div class="info-label">Best For</div><div class="info-value">Art lovers, curious visitors</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-rsl"><div class="modal"><div class="modal-header"><h3>Real Salt Lake</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #7f1d1d, #dc2626);">⚽</div><div class="modal-body"><p>Real Salt Lake competes in Major League Soccer at America First Field in Sandy, Utah — one of the most intimate and atmospheric soccer stadiums in the league. Known for passionate fans and great tailgating culture.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">9256 State St, Sandy, UT</div></div><div class="info-item"><div class="info-label">Season</div><div class="info-value">March – November</div></div><div class="info-item"><div class="info-label">Tickets</div><div class="info-value">From $25</div></div><div class="info-item"><div class="info-label">Transit</div><div class="info-value">Sandy Civic Center TRAX</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-hogle"><div class="modal"><div class="modal-header"><h3>Hogle Zoo</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #d97706, #92400e);">🦁</div><div class="modal-body"><p>Utah's most-visited attraction — Hogle Zoo is home to 800+ animals across 42 acres at the mouth of Emigration Canyon. The Rocky Shores exhibit with polar bears and sea lions is a highlight.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">2600 E Sunnyside Ave, SLC</div></div><div class="info-item"><div class="info-label">Hours</div><div class="info-value">Daily 9am–5pm</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">Adults $20 · Kids $15</div></div><div class="info-item"><div class="info-label">Don't Miss</div><div class="info-value">Zoo train · Rocky Shores</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-tracy"><div class="modal"><div class="modal-header"><h3>Tracy Aviary</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #0284c7, #0c4a6e);">🦜</div><div class="modal-body"><p>One of the oldest public aviaries in the US, home to 400+ birds from 135 species set in beautiful Liberty Park. Free-flight demonstrations, bird-feeding experiences, and special keeper talks.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">589 E 1300 S, Salt Lake City</div></div><div class="info-item"><div class="info-label">Hours</div><div class="info-value">Daily 9am–5pm</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">Adults $12 · Kids $8</div></div><div class="info-item"><div class="info-label">Best For</div><div class="info-value">Bird enthusiasts, families</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-thisplace"><div class="modal"><div class="modal-header"><h3>This Is The Place Heritage Park</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #78716c, #44403c);">🏕️</div><div class="modal-body"><p>A 450-acre living history museum at the very spot where Brigham Young declared "This is the right place" in 1847. Experience pioneer village life with costumed guides, wagon rides, train tours, and seasonal events.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">2601 E Sunnyside Ave, SLC</div></div><div class="info-item"><div class="info-label">Hours</div><div class="info-value">Daily 9am–5pm (summer)</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">Adults $15 · Kids $10</div></div><div class="info-item"><div class="info-label">Best Season</div><div class="info-value">Summer for full programming</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-gsl"><div class="modal"><div class="modal-header"><h3>Great Salt Lake</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #0284c7, #7dd3fc, #f0abfc);">🌊</div><div class="modal-body"><p>The Great Salt Lake is the largest saltwater lake in the Western Hemisphere and one of Utah's most extraordinary natural wonders. Its high salinity turns parts of the lake a striking pink color from salt-loving algae. The lake is a critical stopover for millions of migratory birds.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Best Access</div><div class="info-value">Antelope Island State Park</div></div><div class="info-item"><div class="info-label">Size</div><div class="info-value">~1,700 sq miles</div></div><div class="info-item"><div class="info-label">Salinity</div><div class="info-value">5–27% (vs ocean 3.5%)</div></div><div class="info-item"><div class="info-label">Best For</div><div class="info-value">Wildlife, photography, sunsets</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-eccles"><div class="modal"><div class="modal-header"><h3>Capitol Theatre & Eccles</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #db2777, #7c3aed);">🎭</div><div class="modal-body"><p>SLC's premier performing arts venues. The historic Capitol Theatre (1913) hosts Ballet West, Utah Opera, and Broadway shows. The George S. and Dolores Doré Eccles Theater opened in 2016 as the city's state-of-the-art 2,500-seat performing arts center.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Capitol Theatre</div><div class="info-value">50 W 200 S, Salt Lake City</div></div><div class="info-item"><div class="info-label">Eccles Theater</div><div class="info-value">131 S Main St, Salt Lake City</div></div><div class="info-item"><div class="info-label">Tickets</div><div class="info-value">From $25</div></div><div class="info-item"><div class="info-label">Season</div><div class="info-value">Year-round</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-olympic"><div class="modal"><div class="modal-header"><h3>Utah Olympic Park</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #1e3a8a, #2563eb);">🏅</div><div class="modal-body"><p>Built for the 2002 Salt Lake City Winter Olympics, Utah Olympic Park in Park City remains one of the world's finest winter sports facilities. Ride an actual Olympic bobsled track at 80 mph, watch ski jumpers train, visit the interactive museum, or try the summer zip-line and alpine slide.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">3419 Olympic Pkwy, Park City</div></div><div class="info-item"><div class="info-label">Distance</div><div class="info-value">~35 miles from SLC</div></div><div class="info-item"><div class="info-label">Museum</div><div class="info-value">Free</div></div><div class="info-item"><div class="info-label">Bobsled Ride</div><div class="info-value">$100–$175/person</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-wheeler"><div class="modal"><div class="modal-header"><h3>Wheeler Historic Farm</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #d97706, #064e3b);">🚜</div><div class="modal-body"><p>A working 75-acre Victorian-era farm where families can interact with farm animals, take wagon rides, observe milking demonstrations, and learn about Utah agricultural history in an authentic 1890s setting.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">6351 S 900 E, Murray</div></div><div class="info-item"><div class="info-label">Hours</div><div class="info-value">Daily 9am–dusk</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">Free (activities extra)</div></div><div class="info-item"><div class="info-label">Best For</div><div class="info-value">Kids, families</div></div></div></div></div></div>
+
+<div class="modal-overlay" id="modal-gallivan"><div class="modal"><div class="modal-header"><h3>Gallivan Center</h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div><div class="modal-hero" style="background: linear-gradient(135deg, #0c4a6e, #0ea5e9);">🌆</div><div class="modal-body"><p>Downtown SLC's beloved 1-acre outdoor plaza hosts free summer concerts, food trucks, chess tournaments, an ice skating rink in winter, and the popular Festival of Colors celebration. A great free option year-round.</p><div class="modal-info-grid"><div class="info-item"><div class="info-label">Address</div><div class="info-value">239 S Main St, Salt Lake City</div></div><div class="info-item"><div class="info-label">Ice Rink</div><div class="info-value">Nov – Feb, $5 skate rental</div></div><div class="info-item"><div class="info-label">Concerts</div><div class="info-value">Free, June – August</div></div><div class="info-item"><div class="info-label">Admission</div><div class="info-value">Mostly free</div></div></div></div></div></div>
+
+<button id="back-top" title="Back to top"><i class="fas fa-arrow-up"></i></button>
+<div class="toast-container"></div>
+
+<script src="script.js"></script>
+<script>
+  // Update card count dynamically
+  function updateCount() {
+    const visible = document.querySelectorAll('.filterable-card:not([style*="none"])').length;
+    document.getElementById('card-count').textContent = visible;
+  }
+  document.querySelectorAll('.chip[data-filter]').forEach(btn => {
+    btn.addEventListener('click', () => setTimeout(updateCount, 50));
+  });
+  document.querySelector('.search-input')?.addEventListener('input', () => setTimeout(updateCount, 50));
+</script>
+</body>
+</html>
