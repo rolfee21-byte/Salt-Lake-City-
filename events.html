@@ -37,7 +37,7 @@
       <a href="food.html">Food & Drink</a>
       <a href="events.html" class="active">Events</a>
       <a href="map.html">Map</a>
-      <a href="plan.html" class="nav-cta">Plan Visit</a>
+      <a href="plan.html" class="nav-cta">Move Here</a>
     </div>
     <button class="nav-toggle"><span></span><span></span><span></span></button>
   </div>
@@ -47,7 +47,7 @@
   <div class="page-hero-bg" style="background: linear-gradient(135deg, #92400e 0%, #d97706 50%, #f59e0b 100%);"></div>
   <div class="container">
     <div class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right" style="font-size:0.7rem;"></i> Events</div>
-    <h1>🎪 Events in Salt Lake City</h1>
+    <h1>🎠 Events in Salt Lake City</h1>
     <p>Festivals, concerts, sports, and cultural celebrations happening in SLC throughout the year.</p>
   </div>
 </div>
@@ -55,7 +55,6 @@
 <section class="section">
   <div class="container">
 
-    <!-- Filter -->
     <div class="filter-bar reveal">
       <div class="filter-chips">
         <button class="chip active" data-filter="all">All Events</button>
@@ -68,7 +67,6 @@
       </div>
     </div>
 
-    <!-- Upcoming Events List -->
     <h3 class="reveal" style="margin-bottom: 1.5rem; font-size: 1.3rem;">Upcoming Events — 2026</h3>
     <div class="cards-grid" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 3rem;">
 
@@ -297,7 +295,6 @@
       </div>
     </div>
 
-    <!-- Annual Signature Events -->
     <div class="section-header reveal" style="text-align:left;">
       <div class="section-tag">Must-Attend</div>
       <h2>Signature Annual Events</h2>
@@ -306,7 +303,7 @@
     <div class="grid-3 reveal">
       <div class="annual-card" style="background: linear-gradient(135deg, #1c1917, #78716c);">
         <div class="timing">January · Park City</div>
-        <h3>🎬 Sundance Film Festival</h3>
+        <h3>🎥 Sundance Film Festival</h3>
         <p>The world's premier independent film festival — 100+ features, celebrity sightings, and the cultural heartbeat of independent cinema. SLC is 35 min away.</p>
         <a href="#" class="btn btn-primary btn-sm">Festival Info</a>
       </div>
@@ -332,7 +329,7 @@
     <div class="footer-grid">
       <div class="footer-brand"><div class="logo"><div class="icon">🏔️</div> SLC Explorer</div><p>Your guide to everything happening in Salt Lake City.</p></div>
       <div class="footer-col"><h4>Explore</h4><ul><li><a href="explore.html">Things To Do</a></li><li><a href="outdoors.html">Outdoors</a></li><li><a href="food.html">Food & Drink</a></li></ul></div>
-      <div class="footer-col"><h4>Plan</h4><ul><li><a href="plan.html">Trip Planning</a></li><li><a href="map.html">Interactive Map</a></li></ul></div>
+      <div class="footer-col"><h4>Move Here</h4><ul><li><a href="plan.html">Relocation Guide</a></li><li><a href="map.html">Interactive Map</a></li></ul></div>
       <div class="footer-col"><h4>Quick</h4><ul><li><a href="neighborhoods.html">Neighborhoods</a></li><li><a href="index.html">Home</a></li></ul></div>
     </div>
     <div class="footer-bottom"><p>© 2026 SLC Explorer</p></div>
@@ -343,7 +340,6 @@
 <div class="toast-container"></div>
 <script src="script.js"></script>
 <script>
-  // Filter for event cards
   document.querySelectorAll('.chip[data-filter]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.chip[data-filter]').forEach(b => b.classList.remove('active'));
