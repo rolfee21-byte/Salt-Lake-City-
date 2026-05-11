@@ -3,29 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plan Your Visit — SLC Explorer</title>
+  <title>Moving to Salt Lake City — SLC Explorer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <style>
-    .info-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.75rem; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); height: 100%; }
+    .info-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.75rem; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); }
     .info-card h3 { font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-    .transport-option { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem; background: var(--gray-50); border-radius: var(--radius-md); border: 1px solid var(--gray-200); margin-bottom: 0.75rem; transition: var(--transition); }
-    .transport-option:hover { border-color: var(--primary); background: rgba(0,48,135,0.03); }
-    .transport-icon { width: 44px; height: 44px; background: var(--primary); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
-    .transport-icon.green { background: var(--green); }
-    .transport-icon.orange { background: #d97706; }
-    .transport-icon.purple { background: #7c3aed; }
-    .transport-text h4 { font-family: var(--font-sans); font-weight: 700; font-size: 0.9rem; margin-bottom: 0.25rem; }
-    .transport-text p { font-size: 0.83rem; color: var(--gray-500); line-height: 1.5; }
-    .hotel-zone { display: flex; gap: 1rem; align-items: flex-start; padding: 1.25rem; background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--gray-100); transition: var(--transition); }
-    .hotel-zone:hover { box-shadow: var(--shadow-md); }
-    .hotel-zone .zone-badge { width: 48px; height: 48px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
-    .budget-bar { background: var(--gray-100); border-radius: var(--radius-full); height: 8px; margin-top: 0.4rem; overflow: hidden; }
-    .budget-fill { height: 100%; border-radius: var(--radius-full); }
-    .packing-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-    .pack-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--gray-600); }
+    .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0; border-bottom: 1px solid var(--gray-100); font-size: 0.88rem; }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-row .key { color: var(--gray-500); }
+    .stat-row .val { font-weight: 700; color: var(--gray-800); }
+    .compare-table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); }
+    .compare-table th { background: var(--primary); color: var(--white); padding: 0.85rem 1.25rem; font-family: var(--font-sans); font-size: 0.8rem; text-align: left; text-transform: uppercase; letter-spacing: 0.06em; }
+    .compare-table td { padding: 0.85rem 1.25rem; border-bottom: 1px solid var(--gray-100); font-size: 0.88rem; }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table tr:hover td { background: var(--gray-50); }
+    .compare-table .slc { font-weight: 700; color: var(--primary); }
+    .job-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.25rem; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); transition: var(--transition); }
+    .job-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+    .job-card h4 { font-family: var(--font-sans); font-weight: 800; font-size: 0.95rem; margin-bottom: 0.4rem; }
+    .job-card p { font-size: 0.83rem; color: var(--gray-500); margin-bottom: 0.6rem; }
+    .salary { font-family: var(--font-sans); font-weight: 700; color: var(--green); font-size: 0.88rem; }
+    .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .pros-box { background: rgba(22,163,74,0.06); border: 1px solid rgba(22,163,74,0.2); border-radius: var(--radius-lg); padding: 1.5rem; }
+    .cons-box { background: rgba(220,38,38,0.05); border: 1px solid rgba(220,38,38,0.15); border-radius: var(--radius-lg); padding: 1.5rem; }
+    .pros-box h3 { color: var(--green); margin-bottom: 1rem; }
+    .cons-box h3 { color: var(--secondary); margin-bottom: 1rem; }
+    .pro-item, .con-item { display: flex; gap: 0.6rem; align-items: flex-start; margin-bottom: 0.75rem; font-size: 0.88rem; color: var(--gray-700); line-height: 1.5; }
+    .checklist { display: flex; flex-direction: column; gap: 0.6rem; }
+    .check-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--gray-100); font-size: 0.88rem; cursor: pointer; transition: var(--transition); }
+    .check-item:hover { border-color: var(--primary); }
+    .check-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); flex-shrink: 0; cursor: pointer; }
+    .check-item.done { opacity: 0.5; text-decoration: line-through; }
+    .district-pill { display: inline-block; background: rgba(0,48,135,0.08); color: var(--primary); font-family: var(--font-sans); font-weight: 700; font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: var(--radius-full); margin-bottom: 0.4rem; }
+    @media (max-width: 768px) { .pros-cons { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -41,360 +54,444 @@
       <a href="food.html">Food & Drink</a>
       <a href="events.html">Events</a>
       <a href="map.html">Map</a>
-      <a href="plan.html" class="active nav-cta">Plan Visit</a>
+      <a href="plan.html" class="active nav-cta">Move Here</a>
     </div>
     <button class="nav-toggle"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
 <div class="page-hero">
-  <div class="page-hero-bg" style="background: linear-gradient(135deg, #1c1917 0%, #44403c 50%, #78716c 100%);"></div>
+  <div class="page-hero-bg" style="background: linear-gradient(135deg, #1c1917 0%, #003087 60%, #1a56db 100%);"></div>
   <div class="container">
-    <div class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right" style="font-size:0.7rem;"></i> Plan Your Visit</div>
-    <h1>✈️ Plan Your Visit</h1>
-    <p>Everything you need to know to plan a perfect trip to Salt Lake City — from flights to packing lists.</p>
+    <div class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right" style="font-size:0.7rem;"></i> Moving to SLC</div>
+    <h1>🏠 Moving to Salt Lake City</h1>
+    <p>Everything you need to know about relocating to one of America's fastest-growing and most livable cities.</p>
   </div>
 </div>
 
 <section class="section">
   <div class="container">
 
-    <!-- Getting Here -->
-    <div id="transport" style="margin-bottom: 4rem;">
+    <!-- Why SLC -->
+    <div style="margin-bottom: 4rem;">
       <div class="section-header reveal" style="text-align:left;">
-        <div class="section-tag">Arrivals</div>
-        <h2>Getting to Salt Lake City</h2>
+        <div class="section-tag">Why SLC?</div>
+        <h2>Why People Are Moving to Salt Lake City</h2>
+        <p style="color:var(--gray-500);">SLC is one of the fastest-growing metros in the US — and for good reason.</p>
       </div>
-      <div class="grid-3">
-        <div class="info-card reveal">
-          <h3>✈️ By Air</h3>
-          <p style="font-size: 0.88rem; color: var(--gray-600); margin-bottom: 1rem;">Salt Lake City International Airport (SLC) was recently completely rebuilt — it's now one of the most beautiful and modern airports in the US. Direct flights from 90+ cities across the US, Canada, and Europe.</p>
-          <div style="background: rgba(0,48,135,0.05); border-radius: var(--radius-md); padding: 1rem; font-size: 0.85rem;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span style="color: var(--gray-500);">LAX → SLC</span><strong>~1.5 hrs</strong></div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span style="color: var(--gray-500);">ORD → SLC</span><strong>~2.5 hrs</strong></div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span style="color: var(--gray-500);">JFK → SLC</span><strong>~4.5 hrs</strong></div>
-            <div style="display: flex; justify-content: space-between;"><span style="color: var(--gray-500);">LHR → SLC</span><strong>~10 hrs</strong></div>
-          </div>
-          <div style="margin-top: 1rem; font-size: 0.83rem; color: var(--gray-500);">🚊 TRAX light rail connects airport to downtown in <strong>25 minutes</strong> for $2.50</div>
+      <div class="grid-4 reveal">
+        <div class="info-card" style="text-align:center; border-top: 4px solid var(--primary);">
+          <div style="font-size:2rem; margin-bottom:0.75rem;">💼</div>
+          <h4 style="font-family:var(--font-sans); font-weight:800; margin-bottom:0.5rem;">Silicon Slopes</h4>
+          <p style="font-size:0.85rem; color:var(--gray-500);">A booming tech hub with lower costs than SF or Seattle. Adobe, Qualtrics, Domo, and hundreds of startups are headquartered here.</p>
         </div>
-        <div class="info-card reveal reveal-delay-1">
-          <h3>🚗 By Car</h3>
-          <p style="font-size: 0.88rem; color: var(--gray-600); margin-bottom: 1rem;">I-15 is the main artery running north-south through the Wasatch Front. SLC is well-connected to major western cities by road.</p>
-          <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem;">
-            <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--gray-50); border-radius: var(--radius-sm);">
-              <span>🌴 Las Vegas</span><strong>4.5 hrs</strong>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--gray-50); border-radius: var(--radius-sm);">
-              <span>🌵 Phoenix</span><strong>6.5 hrs</strong>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--gray-50); border-radius: var(--radius-sm);">
-              <span>🏔️ Denver</span><strong>8 hrs</strong>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--gray-50); border-radius: var(--radius-sm);">
-              <span>🌲 Portland</span><strong>11 hrs</strong>
-            </div>
-          </div>
+        <div class="info-card" style="text-align:center; border-top: 4px solid var(--green);">
+          <div style="font-size:2rem; margin-bottom:0.75rem;">⛷️</div>
+          <h4 style="font-family:var(--font-sans); font-weight:800; margin-bottom:0.5rem;">Outdoor Lifestyle</h4>
+          <p style="font-size:0.85rem; color:var(--gray-500);">Ski before work, hike after. 7 world-class ski resorts and 200+ miles of trails within 45 minutes of downtown.</p>
         </div>
-        <div class="info-card reveal reveal-delay-2">
-          <h3>🚆 By Train</h3>
-          <p style="font-size: 0.88rem; color: var(--gray-600); margin-bottom: 1rem;">Amtrak's California Zephyr stops at Salt Lake City Amtrak Station, connecting to major cities via scenic mountain routes.</p>
-          <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem;">
-            <div style="padding: 0.75rem; background: var(--gray-50); border-radius: var(--radius-md);">
-              <div style="font-weight: 700;">California Zephyr</div>
-              <div style="color: var(--gray-500); font-size: 0.8rem;">Chicago – Denver – SLC – San Francisco</div>
-            </div>
-            <div style="font-size: 0.83rem; color: var(--gray-500);">
-              <div>SF → SLC: ~17 hrs</div>
-              <div>Denver → SLC: ~11 hrs</div>
-            </div>
-          </div>
-          <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(22,163,74,0.08); border-radius: var(--radius-md); font-size: 0.82rem; color: var(--green);">
-            🌿 Most scenic train ride in North America — crossing the Rockies!
-          </div>
+        <div class="info-card" style="text-align:center; border-top: 4px solid var(--accent-dark);">
+          <div style="font-size:2rem; margin-bottom:0.75rem;">💰</div>
+          <h4 style="font-family:var(--font-sans); font-weight:800; margin-bottom:0.5rem;">Affordable (Still)</h4>
+          <p style="font-size:0.85rem; color:var(--gray-500);">Median home prices well below Denver, Seattle, or LA. No state income tax on retirement. Lower overall cost of living.</p>
+        </div>
+        <div class="info-card" style="text-align:center; border-top: 4px solid var(--secondary);">
+          <div style="font-size:2rem; margin-bottom:0.75rem;">🌱</div>
+          <h4 style="font-family:var(--font-sans); font-weight:800; margin-bottom:0.5rem;">Fast Growing</h4>
+          <p style="font-size:0.85rem; color:var(--gray-500);">Utah is consistently the #1 fastest-growing state. SLC's food scene, arts culture, and diversity are expanding rapidly.</p>
         </div>
       </div>
     </div>
 
-    <!-- Getting Around -->
+    <!-- Cost of Living -->
     <div style="margin-bottom: 4rem;">
       <div class="section-header reveal" style="text-align:left;">
-        <div class="section-tag">Transport</div>
-        <h2>Getting Around SLC</h2>
+        <div class="section-tag">Finances</div>
+        <h2>Cost of Living</h2>
       </div>
       <div class="grid-2">
         <div class="reveal">
-          <div class="transport-option">
-            <div class="transport-icon">🚊</div>
-            <div class="transport-text">
-              <h4>TRAX Light Rail</h4>
-              <p>3 lines connecting downtown to the airport, University of Utah, Sandy (RSL stadium), and the suburbs. Runs daily 5am–midnight. Fare: $2.50. Free in the downtown "Free Fare Zone" (main streets). Best for: airport, U of U, major attractions.</p>
-            </div>
+          <h3 style="margin-bottom:1.25rem; font-size:1.1rem;">📊 SLC vs Other Cities</h3>
+          <div style="overflow-x:auto;">
+            <table class="compare-table">
+              <thead>
+                <tr>
+                  <th>City</th>
+                  <th>Avg Rent (1BR)</th>
+                  <th>Median Home</th>
+                  <th>Cost Index</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="slc">🏔️ Salt Lake City</td>
+                  <td class="slc">$1,400</td>
+                  <td class="slc">$480K</td>
+                  <td class="slc">105</td>
+                </tr>
+                <tr>
+                  <td>🌲 Denver, CO</td>
+                  <td>$1,750</td>
+                  <td>$540K</td>
+                  <td>118</td>
+                </tr>
+                <tr>
+                  <td>☁️ Seattle, WA</td>
+                  <td>$2,100</td>
+                  <td>$750K</td>
+                  <td>152</td>
+                </tr>
+                <tr>
+                  <td>🌉 San Francisco</td>
+                  <td>$3,200</td>
+                  <td>$1.2M</td>
+                  <td>224</td>
+                </tr>
+                <tr>
+                  <td>🎭 Austin, TX</td>
+                  <td>$1,550</td>
+                  <td>$500K</td>
+                  <td>112</td>
+                </tr>
+                <tr>
+                  <td>🎰 Las Vegas, NV</td>
+                  <td>$1,300</td>
+                  <td>$390K</td>
+                  <td>98</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="transport-option">
-            <div class="transport-icon green">🚌</div>
-            <div class="transport-text">
-              <h4>UTA Bus System</h4>
-              <p>Salt Lake City's bus network covers the metro area comprehensively. Multiple routes connect to suburbs, sugar house, and major destinations. Same fare as TRAX ($2.50, transfers included).</p>
-            </div>
-          </div>
-          <div class="transport-option">
-            <div class="transport-icon orange">🚲</div>
-            <div class="transport-text">
-              <h4>Green Bike Share</h4>
-              <p>500+ bikes and e-bikes at stations across the city. $2/trip or $30/month. SLC's flat downtown grid is perfect for cycling. Perfect for short hops between neighborhoods.</p>
-            </div>
-          </div>
-          <div class="transport-option">
-            <div class="transport-icon purple">🚗</div>
-            <div class="transport-text">
-              <h4>Uber / Lyft</h4>
-              <p>Widely available throughout the metro. Essential for ski canyon trips (no transit to Alta, Snowbird, Brighton, or Solitude). Surge pricing on ski days — book early or use the ski resort shuttles.</p>
-            </div>
-          </div>
+          <p style="font-size:0.75rem; color:var(--gray-400); margin-top:0.5rem;">Cost Index: 100 = US average. Data approximate for 2026.</p>
         </div>
         <div class="reveal reveal-delay-1">
+          <h3 style="margin-bottom:1.25rem; font-size:1.1rem;">💵 Monthly Budget Breakdown</h3>
           <div class="info-card">
-            <h3>🎿 Getting to Ski Resorts</h3>
-            <p style="font-size: 0.85rem; color: var(--gray-600); margin-bottom: 1rem;">No transit goes directly to Snowbird, Alta, or Brighton. Your options:</p>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
-              <div style="padding: 0.85rem; background: var(--gray-50); border-radius: var(--radius-md);">
-                <div style="font-weight: 700; margin-bottom: 0.25rem;">🚌 Canyon Transportation</div>
-                <div style="color: var(--gray-500);">Shared shuttle from SLC hotels to resorts. ~$30–45 roundtrip. Book 24 hrs ahead.</div>
-              </div>
-              <div style="padding: 0.85rem; background: var(--gray-50); border-radius: var(--radius-md);">
-                <div style="font-weight: 700; margin-bottom: 0.25rem;">🚗 Rental Car</div>
-                <div style="color: var(--gray-500);">Best flexibility. Rentals from airport from $40/day. 4WD recommended in winter — but not required.</div>
-              </div>
-              <div style="padding: 0.85rem; background: var(--gray-50); border-radius: var(--radius-md);">
-                <div style="font-weight: 700; margin-bottom: 0.25rem;">⚡ Rideshare</div>
-                <div style="color: var(--gray-500);">Uber/Lyft to ski canyons runs $45–80 each way. Gets expensive fast — share with others.</div>
-              </div>
-              <div style="padding: 0.85rem; background: rgba(0,48,135,0.05); border-radius: var(--radius-md); border: 1px solid rgba(0,48,135,0.15);">
-                <div style="font-weight: 700; margin-bottom: 0.25rem; color: var(--primary);">🚌 UTA to Park City</div>
-                <div style="color: var(--gray-600);">Bus route 902 connects to Park City Mountain and Deer Valley from downtown SLC. $5 each way!</div>
-              </div>
+            <div style="margin-bottom:1rem;">
+              <div style="font-size:0.7rem; font-family:var(--font-sans); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray-400); margin-bottom:0.75rem;">Single Person</div>
+              <div class="stat-row"><span class="key">1BR Apartment (avg)</span><span class="val">$1,200–$1,800</span></div>
+              <div class="stat-row"><span class="key">Utilities (electric, gas, water)</span><span class="val">$100–$160</span></div>
+              <div class="stat-row"><span class="key">Internet</span><span class="val">$60–$80</span></div>
+              <div class="stat-row"><span class="key">Groceries</span><span class="val">$300–$450</span></div>
+              <div class="stat-row"><span class="key">Dining out (moderate)</span><span class="val">$200–$350</span></div>
+              <div class="stat-row"><span class="key">Transport (car or transit)</span><span class="val">$100–$400</span></div>
+              <div class="stat-row"><span class="key">Ski season pass (optional)</span><span class="val">$600–$900/yr</span></div>
+            </div>
+            <div style="background:rgba(0,48,135,0.06); border-radius:var(--radius-md); padding:1rem;">
+              <div style="font-family:var(--font-sans); font-weight:800; color:var(--primary); font-size:0.95rem;">Total: ~$2,000–$3,200/mo</div>
+              <div style="font-size:0.78rem; color:var(--gray-500); margin-top:0.25rem;">Comfortable single-person budget in SLC</div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Where to Stay -->
-    <div id="hotels" style="margin-bottom: 4rem;">
-      <div class="section-header reveal" style="text-align:left;">
-        <div class="section-tag">Accommodation</div>
-        <h2>Where to Stay</h2>
-        <p style="color: var(--gray-500);">SLC has accommodation for every budget — from boutique hotels to budget hostels.</p>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 1rem;" class="reveal">
-        <div class="hotel-zone">
-          <div class="zone-badge" style="background: rgba(0,48,135,0.1);">🏙️</div>
-          <div>
-            <h4 style="font-family: var(--font-sans); font-weight: 800; margin-bottom: 0.3rem;">Downtown SLC</h4>
-            <p style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 0.5rem;">Best for: city exploration, Temple Square, concerts, dining. Hilton, Marriott, Grand America, and boutique hotels. TRAX airport connection. Walkable to major attractions.</p>
-            <div style="font-size: 0.82rem;"><span class="badge badge-blue">$$$: $150–$350/night</span></div>
-          </div>
-        </div>
-        <div class="hotel-zone">
-          <div class="zone-badge" style="background: rgba(219,39,119,0.1);">🍬</div>
-          <div>
-            <h4 style="font-family: var(--font-sans); font-weight: 800; margin-bottom: 0.3rem;">Sugar House / 9th & 9th</h4>
-            <p style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 0.5rem;">Best for: local experience, indie restaurants, neighborhood vibe. B&Bs, vacation rentals, and boutique options. 3 miles from downtown, accessible by TRAX.</p>
-            <div style="font-size: 0.82rem;"><span class="badge badge-green">$$: $100–$200/night</span></div>
-          </div>
-        </div>
-        <div class="hotel-zone">
-          <div class="zone-badge" style="background: rgba(5,150,105,0.1);">🎿</div>
-          <div>
-            <h4 style="font-family: var(--font-sans); font-weight: 800; margin-bottom: 0.3rem;">Little Cottonwood / Big Cottonwood Base Areas</h4>
-            <p style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 0.5rem;">Best for: skiers wanting slope access. Cliff Lodge (Snowbird), Alta Ski Lodges, Solitude Mountain Resort. Slope-side convenience. Car not required for skiing.</p>
-            <div style="font-size: 0.82rem;"><span class="badge badge-red">$$$$: $250–$700/night</span></div>
-          </div>
-        </div>
-        <div class="hotel-zone">
-          <div class="zone-badge" style="background: rgba(217,119,6,0.1);">💎</div>
-          <div>
-            <h4 style="font-family: var(--font-sans); font-weight: 800; margin-bottom: 0.3rem;">Park City</h4>
-            <p style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 0.5rem;">Best for: ski resort access + vibrant town. 35 min from SLC but a completely different experience — charming historic Main Street, world-class dining, and close to Park City Mountain and Deer Valley.</p>
-            <div style="font-size: 0.82rem;"><span class="badge badge-red">$$$$: $300–$800/night</span></div>
-          </div>
-        </div>
-        <div class="hotel-zone">
-          <div class="zone-badge" style="background: rgba(22,163,74,0.1);">💰</div>
-          <div>
-            <h4 style="font-family: var(--font-sans); font-weight: 800; margin-bottom: 0.3rem;">Murray / Sandy / Midvale (Budget)</h4>
-            <p style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 0.5rem;">Best for: budget travelers. Suburban areas south of SLC with chain hotels at great prices. TRAX-connected to downtown. 20–35 minutes to the city center or ski canyons.</p>
-            <div style="font-size: 0.82rem;"><span class="badge badge-green">$: $70–$150/night</span></div>
+          <div style="margin-top:1rem; padding:1rem; background:rgba(22,163,74,0.07); border-radius:var(--radius-md); border:1px solid rgba(22,163,74,0.2); font-size:0.85rem;">
+            <strong style="color:var(--green);">Utah Taxes:</strong> <span style="color:var(--gray-600);">State income tax flat 4.65%. No local income tax. Sales tax ~7.2%. Property taxes among the lowest in the US.</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Budget Guide -->
-    <div id="budget" style="margin-bottom: 4rem;">
-      <div class="section-header reveal" style="text-align:left;">
-        <div class="section-tag">Budget</div>
-        <h2>Budget Guide</h2>
-      </div>
-      <div class="grid-3 reveal">
-        <div class="info-card" style="border-top: 4px solid var(--green);">
-          <h3 style="color: var(--green);">💚 Budget Traveler</h3>
-          <p style="font-size: 0.82rem; color: var(--gray-500); margin-bottom: 1.25rem;">~$80–120/day</p>
-          <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem;">
-            <div style="display: flex; justify-content: space-between;"><span>Hostel / budget motel</span><strong>$50–70</strong></div>
-            <div style="display: flex; justify-content: space-between;"><span>Food (tacos, budget cafés)</span><strong>$15–20</strong></div>
-            <div style="display: flex; justify-content: space-between;"><span>Transport (TRAX/bus)</span><strong>$5–10</strong></div>
-            <div style="display: flex; justify-content: space-between;"><span>Activities (parks, free museums)</span><strong>$0–20</strong></div>
-            <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--gray-100); font-size: 0.8rem; color: var(--gray-500);">Free: Temple Square, State Capitol, Memory Grove, Liberty Park, Jordan River Trail</div>
-          </div>
-        </div>
-        <div class="info-card" style="border-top: 4px solid var(--primary);">
-          <h3 style="color: var(--primary);">💙 Mid-Range</h3>
-          <p style="font-size: 0.82rem; color: var(--gray-500); margin-bottom: 1.25rem;">~$200–300/day</p>
-          <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem;">
-            <div style="display: flex; justify-content: space-between;"><span>3-star hotel</span><strong>$120–180</strong></div>
-            <div style="display: flex; justify-content: space-between;"><span>Food (sit-down restaurants)</span><strong>$40–60</strong></div>
-            <div style="display: flex; justify-content: space-between;"><span>Transport (rental car or Uber)</span><strong>$30–50</strong></div>
-            <div style="display: flex; justify-content: space-between;"><span>Activities (paid museums, tours)</span><strong>$25–50</strong></div>
-            <div style="display: flex; justify-content: space-between;"><span>Ski day (mid-week)</span><strong>+$125–150</strong></div>
-          </div>
-        </div>
-        <div class="info-card" style="border-top: 4px solid var(--accent-dark);">
-          <h3 style="color: var(--accent-dark);">💛 Luxury</h3>
-          <p style="font-size: 0.82rem; color: var(--gray-500); margin-bottom: 1.25rem;">~$500–800+/day</p>
-          <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem;">
-            <div style="display: flex; justify-content: space-between;"><span>Boutique / Grand America</span><strong>$250–500</strong></div>
-            <div style="display: flex; justify-content: space-between;"><span>Fine dining</span><strong>$80–150</strong></div>
-            <div style="display: flex; justify-content: space-between;"><span>Private transfers</span><strong>$80–120</strong></div>
-            <div style="display: flex; justify-content: space-between;"><span>Deer Valley ski + lessons</span><strong>$300–400</strong></div>
-            <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--gray-100); font-size: 0.8rem; color: var(--gray-500);">Deer Valley, Grand America, Log Haven, ski guides, heli-skiing</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Packing -->
+    <!-- Job Market -->
     <div style="margin-bottom: 4rem;">
       <div class="section-header reveal" style="text-align:left;">
-        <div class="section-tag">Packing</div>
-        <h2>What to Pack</h2>
+        <div class="section-tag">Economy</div>
+        <h2>Job Market & Industries</h2>
+        <p style="color:var(--gray-500);">Utah's unemployment rate is consistently one of the lowest in the nation.</p>
       </div>
-      <div class="tabs-container reveal" data-tabs>
-        <div class="tabs">
-          <button class="tab-btn active" data-tab="pack-winter">❄️ Winter (Nov–Mar)</button>
-          <button class="tab-btn" data-tab="pack-spring">🌸 Spring (Apr–May)</button>
-          <button class="tab-btn" data-tab="pack-summer">☀️ Summer (Jun–Sep)</button>
-          <button class="tab-btn" data-tab="pack-fall">🍂 Fall (Oct–Nov)</button>
+      <div class="grid-auto reveal">
+        <div class="job-card">
+          <div style="font-size:1.5rem; margin-bottom:0.5rem;">💻</div>
+          <h4>Tech / Silicon Slopes</h4>
+          <p>Adobe, Qualtrics, Domo, Pluralsight, Ancestry, Instructure, and 400+ startups. SLC's tech scene is growing faster than any other US metro.</p>
+          <div class="salary">Avg salary: $90K–$140K</div>
         </div>
-        <div class="tab-panel active" data-panel="pack-winter">
-          <div style="background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm);">
-            <div class="packing-list">
-              <div class="pack-item">🧥 Heavy insulated parka</div>
-              <div class="pack-item">🧤 Waterproof gloves (2 pairs)</div>
-              <div class="pack-item">🧢 Warm beanie & neck gaiter</div>
-              <div class="pack-item">👢 Waterproof insulated boots</div>
-              <div class="pack-item">🧦 Wool/synthetic base layers</div>
-              <div class="pack-item">🎿 Ski gear or rent at resort</div>
-              <div class="pack-item">🕶️ UV ski goggles</div>
-              <div class="pack-item">☀️ SPF 50+ sunscreen</div>
-              <div class="pack-item">💧 Lip balm & moisturizer (dry air!)</div>
-              <div class="pack-item">📱 Offline maps (AllTrails/Gaia)</div>
+        <div class="job-card">
+          <div style="font-size:1.5rem; margin-bottom:0.5rem;">🏥</div>
+          <h4>Healthcare</h4>
+          <p>Intermountain Health and University of Utah Health are two of the nation's most respected health systems and among Utah's largest employers.</p>
+          <div class="salary">Avg salary: $65K–$120K</div>
+        </div>
+        <div class="job-card">
+          <div style="font-size:1.5rem; margin-bottom:0.5rem;">🏦</div>
+          <h4>Finance & Insurance</h4>
+          <p>Goldman Sachs, American Express, and dozens of fintech companies have major SLC offices, drawn by the talent pool and lower costs.</p>
+          <div class="salary">Avg salary: $75K–$130K</div>
+        </div>
+        <div class="job-card">
+          <div style="font-size:1.5rem; margin-bottom:0.5rem;">⛷️</div>
+          <h4>Outdoor Industry</h4>
+          <p>Black Diamond, Skullcandy, ENVE Composites, and dozens of outdoor brands are headquartered here. A dream for outdoor enthusiasts.</p>
+          <div class="salary">Avg salary: $55K–$90K</div>
+        </div>
+        <div class="job-card">
+          <div style="font-size:1.5rem; margin-bottom:0.5rem;">🏛️</div>
+          <h4>Government & Education</h4>
+          <p>State of Utah, SLC municipality, University of Utah, and Utah State University are major stable employers across many disciplines.</p>
+          <div class="salary">Avg salary: $55K–$95K</div>
+        </div>
+        <div class="job-card">
+          <div style="font-size:1.5rem; margin-bottom:0.5rem;">✈️</div>
+          <h4>Aerospace & Defense</h4>
+          <p>L3Harris, Northrop Grumman, Boeing, and Lockheed all have major Utah operations, particularly in the Wasatch Front corridor.</p>
+          <div class="salary">Avg salary: $80K–$130K</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Housing -->
+    <div style="margin-bottom: 4rem;">
+      <div class="section-header reveal" style="text-align:left;">
+        <div class="section-tag">Housing</div>
+        <h2>Where to Live</h2>
+        <p style="color:var(--gray-500);">SLC's neighborhoods each offer a distinct lifestyle — here's how to find your fit.</p>
+      </div>
+      <div class="grid-3 reveal">
+        <div class="info-card">
+          <div class="district-pill">Downtown / Avenues</div>
+          <h3 style="font-size:1rem;">Urban Walkable</h3>
+          <div class="stat-row"><span class="key">1BR Rent</span><span class="val">$1,600–$2,200</span></div>
+          <div class="stat-row"><span class="key">Median Home</span><span class="val">$550K–$700K</span></div>
+          <div class="stat-row"><span class="key">Best For</span><span class="val">Young professionals</span></div>
+          <div class="stat-row"><span class="key">Walk Score</span><span class="val">88–96</span></div>
+          <p style="font-size:0.82rem; color:var(--gray-500); margin-top:0.75rem;">No car needed. Steps from restaurants, transit, and Temple Square. Historic Victorian homes in the Avenues.</p>
+        </div>
+        <div class="info-card">
+          <div class="district-pill">Sugar House / 9th & 9th</div>
+          <h3 style="font-size:1rem;">Neighborhood Favorite</h3>
+          <div class="stat-row"><span class="key">1BR Rent</span><span class="val">$1,400–$1,800</span></div>
+          <div class="stat-row"><span class="key">Median Home</span><span class="val">$480K–$620K</span></div>
+          <div class="stat-row"><span class="key">Best For</span><span class="val">Creatives, LGBTQ+, families</span></div>
+          <div class="stat-row"><span class="key">Walk Score</span><span class="val">80–88</span></div>
+          <p style="font-size:0.82rem; color:var(--gray-500); margin-top:0.75rem;">SLC's most beloved area. Indie coffee, great restaurants, strong community feel, and easy canyon access.</p>
+        </div>
+        <div class="info-card">
+          <div class="district-pill">Murray / Midvale / Sandy</div>
+          <h3 style="font-size:1rem;">Suburban Value</h3>
+          <div class="stat-row"><span class="key">1BR Rent</span><span class="val">$1,100–$1,500</span></div>
+          <div class="stat-row"><span class="key">Median Home</span><span class="val">$380K–$500K</span></div>
+          <div class="stat-row"><span class="key">Best For</span><span class="val">Families, budget-conscious</span></div>
+          <div class="stat-row"><span class="key">Walk Score</span><span class="val">45–60</span></div>
+          <p style="font-size:0.82rem; color:var(--gray-500); margin-top:0.75rem;">Car required but much more space and value. TRAX-connected to downtown. Close to ski canyons.</p>
+        </div>
+        <div class="info-card">
+          <div class="district-pill">Millcreek</div>
+          <h3 style="font-size:1rem;">Best of Both</h3>
+          <div class="stat-row"><span class="key">1BR Rent</span><span class="val">$1,300–$1,700</span></div>
+          <div class="stat-row"><span class="key">Median Home</span><span class="val">$450K–$580K</span></div>
+          <div class="stat-row"><span class="key">Best For</span><span class="val">Outdoor lovers, families</span></div>
+          <div class="stat-row"><span class="key">Walk Score</span><span class="val">60–72</span></div>
+          <p style="font-size:0.82rem; color:var(--gray-500); margin-top:0.75rem;">Between SLC and the canyons. Direct Millcreek Canyon trailhead access. Good schools, great restaurants.</p>
+        </div>
+        <div class="info-card">
+          <div class="district-pill">Park City (35 mi)</div>
+          <h3 style="font-size:1rem;">Ski Town Living</h3>
+          <div class="stat-row"><span class="key">1BR Rent</span><span class="val">$2,000–$3,500</span></div>
+          <div class="stat-row"><span class="key">Median Home</span><span class="val">$900K–$2M+</span></div>
+          <div class="stat-row"><span class="key">Best For</span><span class="val">Ski lifestyle, remote workers</span></div>
+          <div class="stat-row"><span class="key">Walk Score</span><span class="val">70 (Main St)</span></div>
+          <p style="font-size:0.82rem; color:var(--gray-500); margin-top:0.75rem;">Expensive but unmatched ski access. Charming Main Street, world-class restaurants, and stunning mountain setting.</p>
+        </div>
+        <div class="info-card">
+          <div class="district-pill">Rose Park / Glendale</div>
+          <h3 style="font-size:1rem;">Affordable & Diverse</h3>
+          <div class="stat-row"><span class="key">1BR Rent</span><span class="val">$950–$1,300</span></div>
+          <div class="stat-row"><span class="key">Median Home</span><span class="val">$320K–$420K</span></div>
+          <div class="stat-row"><span class="key">Best For</span><span class="val">First-time buyers, diverse community</span></div>
+          <div class="stat-row"><span class="key">Walk Score</span><span class="val">50–60</span></div>
+          <p style="font-size:0.82rem; color:var(--gray-500); margin-top:0.75rem;">SLC's most affordable and diverse neighborhoods. Great authentic food. Rapidly improving infrastructure.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Schools -->
+    <div style="margin-bottom: 4rem;">
+      <div class="section-header reveal" style="text-align:left;">
+        <div class="section-tag">Education</div>
+        <h2>Schools & Universities</h2>
+      </div>
+      <div class="grid-2 reveal">
+        <div class="info-card">
+          <h3>🏫 K–12 School Districts</h3>
+          <div style="display:flex; flex-direction:column; gap:0.85rem; margin-top:0.5rem;">
+            <div style="padding:0.85rem; background:var(--gray-50); border-radius:var(--radius-md);">
+              <div style="font-family:var(--font-sans); font-weight:700; font-size:0.9rem; margin-bottom:0.25rem;">Salt Lake City School District</div>
+              <div style="font-size:0.82rem; color:var(--gray-500);">Urban district covering downtown, Avenues, Sugar House. Diverse, improving. Several excellent magnet schools including West High and East High.</div>
             </div>
-            <div style="margin-top: 1rem; padding: 0.85rem; background: rgba(0,48,135,0.05); border-radius: var(--radius-md); font-size: 0.83rem; color: var(--gray-600);">
-              ⚠️ <strong>Altitude note:</strong> SLC is at 4,327 ft and ski resorts are 8,000–11,000 ft. Drink extra water, take it easy the first day, and watch for signs of altitude sickness.
+            <div style="padding:0.85rem; background:var(--gray-50); border-radius:var(--radius-md);">
+              <div style="font-family:var(--font-sans); font-weight:700; font-size:0.9rem; margin-bottom:0.25rem;">Granite School District</div>
+              <div style="font-size:0.82rem; color:var(--gray-500);">Covers Millcreek, Murray, Holladay. One of Utah's largest districts with strong STEM programs.</div>
+            </div>
+            <div style="padding:0.85rem; background:var(--gray-50); border-radius:var(--radius-md);">
+              <div style="font-family:var(--font-sans); font-weight:700; font-size:0.9rem; margin-bottom:0.25rem;">Canyons School District</div>
+              <div style="font-size:0.82rem; color:var(--gray-500);">Covers Sandy, Draper, Alta, Brighton areas. Consistently among Utah's highest-performing districts. Highly rated.</div>
+            </div>
+            <div style="padding:0.85rem; background:var(--gray-50); border-radius:var(--radius-md);">
+              <div style="font-family:var(--font-sans); font-weight:700; font-size:0.9rem; margin-bottom:0.25rem;">Notable Private Schools</div>
+              <div style="font-size:0.82rem; color:var(--gray-500);">Judge Memorial Catholic, Rowland Hall, Waterford School (college prep), Salt Lake Academy. Tuition $8K–$22K/yr.</div>
             </div>
           </div>
         </div>
-        <div class="tab-panel" data-panel="pack-spring">
-          <div style="background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm);">
-            <div class="packing-list">
-              <div class="pack-item">🧥 Light jacket + rain shell</div>
-              <div class="pack-item">👕 Layers — mornings can be cold</div>
-              <div class="pack-item">👟 Hiking shoes</div>
-              <div class="pack-item">☀️ Sunscreen SPF 30+</div>
-              <div class="pack-item">🕶️ Sunglasses</div>
-              <div class="pack-item">💧 Water bottle (1L+)</div>
-              <div class="pack-item">🐛 Bug spray (at lower elevations)</div>
-              <div class="pack-item">🎒 Day pack for hikes</div>
+        <div class="info-card">
+          <h3>🎓 Universities</h3>
+          <div style="display:flex; flex-direction:column; gap:0.85rem; margin-top:0.5rem;">
+            <div style="padding:0.85rem; background:var(--gray-50); border-radius:var(--radius-md);">
+              <div style="font-family:var(--font-sans); font-weight:700; font-size:0.9rem; margin-bottom:0.25rem;">University of Utah <span class="badge badge-blue">Top 100</span></div>
+              <div style="font-size:0.82rem; color:var(--gray-500);">Flagship state university with a stunning mountain-view campus. Excellent medical school, business school, and engineering. PAC-12 athletics.</div>
             </div>
-          </div>
-        </div>
-        <div class="tab-panel" data-panel="pack-summer">
-          <div style="background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm);">
-            <div class="packing-list">
-              <div class="pack-item">👕 Light, breathable clothing</div>
-              <div class="pack-item">☀️ SPF 50+ sunscreen (intense UV at altitude)</div>
-              <div class="pack-item">🕶️ Quality UV sunglasses</div>
-              <div class="pack-item">👟 Trail runners or hiking boots</div>
-              <div class="pack-item">💧 2L+ water per hike</div>
-              <div class="pack-item">🌩️ Rain shell (afternoon storms)</div>
-              <div class="pack-item">🎒 Day pack</div>
-              <div class="pack-item">🩴 Sandals for city exploring</div>
-              <div class="pack-item">🏊 Swimsuit (pools, Deer Creek)</div>
-              <div class="pack-item">🐻 Bear spray for backcountry</div>
+            <div style="padding:0.85rem; background:var(--gray-50); border-radius:var(--radius-md);">
+              <div style="font-family:var(--font-sans); font-weight:700; font-size:0.9rem; margin-bottom:0.25rem;">Westminster University</div>
+              <div style="font-size:0.82rem; color:var(--gray-500);">Private liberal arts university in Sugar House — small classes, strong MBA and nursing programs, beautiful campus.</div>
             </div>
-            <div style="margin-top: 1rem; padding: 0.85rem; background: rgba(217,119,6,0.08); border-radius: var(--radius-md); font-size: 0.83rem; color: #92400e;">
-              🌡️ Valley temps can reach 95°F+ in July/August. Always carry more water than you think you'll need.
+            <div style="padding:0.85rem; background:var(--gray-50); border-radius:var(--radius-md);">
+              <div style="font-family:var(--font-sans); font-weight:700; font-size:0.9rem; margin-bottom:0.25rem;">Salt Lake Community College</div>
+              <div style="font-size:0.82rem; color:var(--gray-500);">Affordable 2-year degrees, workforce training, and transfer pathways. Multiple campuses across the valley.</div>
             </div>
-          </div>
-        </div>
-        <div class="tab-panel" data-panel="pack-fall">
-          <div style="background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm);">
-            <div class="packing-list">
-              <div class="pack-item">🧥 Light to medium jacket</div>
-              <div class="pack-item">👕 Layers — wide temperature range</div>
-              <div class="pack-item">👟 Hiking boots</div>
-              <div class="pack-item">☀️ Sunscreen (still strong UV)</div>
-              <div class="pack-item">🍂 Camera! Foliage is stunning</div>
-              <div class="pack-item">💧 Water bottle</div>
-              <div class="pack-item">🧤 Light gloves for early mornings</div>
-            </div>
-            <div style="margin-top: 1rem; padding: 0.85rem; background: rgba(22,163,74,0.08); border-radius: var(--radius-md); font-size: 0.83rem; color: var(--green);">
-              🍂 <strong>Fall tip:</strong> Cottonwood Canyon foliage peaks mid-late October. Go on a weekday — weekends get crowded!
+            <div style="padding:0.85rem; background:var(--gray-50); border-radius:var(--radius-md);">
+              <div style="font-family:var(--font-sans); font-weight:700; font-size:0.9rem; margin-bottom:0.25rem;">BYU (Provo, 45 min south)</div>
+              <div style="font-size:0.82rem; color:var(--gray-500);">Top-ranked private university operated by the LDS Church. Excellent business, law, and engineering programs.</div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Essential Info -->
-    <div>
+    <!-- Utah Culture -->
+    <div style="margin-bottom: 4rem;">
       <div class="section-header reveal" style="text-align:left;">
-        <div class="section-tag">Quick Reference</div>
-        <h2>Essential Information</h2>
+        <div class="section-tag">Lifestyle</div>
+        <h2>What Life is Actually Like</h2>
+        <p style="color:var(--gray-500);">Honest things to know before you move.</p>
       </div>
       <div class="grid-3 reveal">
-        <div class="accordion-item">
-          <div class="accordion-header"><span>🚑 Emergency Numbers</span><span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span></div>
-          <div class="accordion-body"><div class="accordion-body-inner">
-            <p><strong>Emergency:</strong> 911<br>
-            <strong>Police (non-emergency):</strong> (801) 799-3000<br>
-            <strong>Intermountain Medical Center:</strong> (801) 507-7000<br>
-            <strong>University of Utah Hospital:</strong> (801) 581-2121<br>
-            <strong>Poison Control:</strong> 1-800-222-1222</p>
-          </div></div>
+        <div class="info-card">
+          <h3>⛪ Mormon Culture</h3>
+          <p style="font-size:0.85rem; color:var(--gray-600); line-height:1.7;">About 45% of SLC residents are members of the LDS Church — lower than the state as a whole (60%+). The city itself is notably more secular and progressive than surrounding Utah. You'll notice Sunday closures at some businesses and a strong family-oriented community culture. Most newcomers find it welcoming.</p>
         </div>
-        <div class="accordion-item">
-          <div class="accordion-header"><span>📞 Useful Contacts</span><span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span></div>
-          <div class="accordion-body"><div class="accordion-body-inner">
-            <p><strong>Visit Salt Lake:</strong> (801) 534-4900<br>
-            <strong>UTA Transit Info:</strong> (801) 743-3882<br>
-            <strong>SLC Airport:</strong> (801) 575-2400<br>
-            <strong>Utah Road Conditions:</strong> 511<br>
-            <strong>Canyon Avalanche Center:</strong> (801) 524-5304</p>
-          </div></div>
+        <div class="info-card">
+          <h3>🌫️ Air Quality (Inversions)</h3>
+          <p style="font-size:0.85rem; color:var(--gray-600); line-height:1.7;">SLC's bowl geography traps pollution in winter inversions — typically January and February. Air quality can reach "unhealthy" levels for 10–20 days per year. This is the city's most significant livability challenge. Check AirNow.gov or the UtahAir app. Most residents adjust and limit outdoor exercise on bad days.</p>
         </div>
-        <div class="accordion-item">
-          <div class="accordion-header"><span>💡 Insider Tips</span><span class="accordion-arrow"><i class="fas fa-chevron-down"></i></span></div>
-          <div class="accordion-body"><div class="accordion-body-inner">
-            <ul style="padding-left: 1rem; color: var(--gray-600); font-size: 0.88rem; line-height: 1.8;">
-              <li>Book ski days midweek — weekends at Snowbird/Alta can be brutal</li>
-              <li>Temple Square is free and always worth a visit</li>
-              <li>Red Iguana always has a line — go at 5pm or wait 45+ min</li>
-              <li>TRAX is free in the downtown core</li>
-              <li>Check AirNow.gov before visiting — valley inversion can cause bad air quality in winter</li>
-            </ul>
-          </div></div>
+        <div class="info-card">
+          <h3>🏳️‍🌈 LGBTQ+ Community</h3>
+          <p style="font-size:0.85rem; color:var(--gray-600); line-height:1.7;">SLC has a vibrant and growing LGBTQ+ community, especially in Sugar House and 9th & 9th. Utah Pride Festival is one of the West's largest. The city passed comprehensive LGBTQ non-discrimination protections and is significantly more progressive than the surrounding state. Openly gay officials serve in city government.</p>
+        </div>
+        <div class="info-card">
+          <h3>🌍 Diversity</h3>
+          <p style="font-size:0.85rem; color:var(--gray-600); line-height:1.7;">SLC is majority-minority and growing more diverse each year. About 22% Latino/Hispanic, 5% Asian, 3% Black. The west side has strong Latino communities with authentic food, culture, and community. The city is notably more diverse than Utah overall and continues trending toward greater diversity.</p>
+        </div>
+        <div class="info-card">
+          <h3>🚗 Getting Around</h3>
+          <p style="font-size:0.85rem; color:var(--gray-600); line-height:1.7;">SLC is car-dependent outside of downtown and Sugar House. TRAX light rail is excellent for the downtown corridor, airport, and university, but most suburbs require a car. Ski canyons have no transit (except Park City). If you work remotely or downtown, you can go car-free. Otherwise, budget for a vehicle.</p>
+        </div>
+        <div class="info-card">
+          <h3>🍺 Alcohol Laws</h3>
+          <p style="font-size:0.85rem; color:var(--gray-600); line-height:1.7;">Utah has unique alcohol laws — grocery stores sell max 5% ABV beer; wine and spirits come from state liquor stores (DABC). Full-strength alcohol available in bars and restaurants. DABC stores close on Sundays. The craft beer scene is thriving and most residents barely notice the quirks after a month or two.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pros & Cons -->
+    <div style="margin-bottom: 4rem;">
+      <div class="section-header reveal" style="text-align:left;">
+        <div class="section-tag">Honest Take</div>
+        <h2>Pros & Cons of Living in SLC</h2>
+      </div>
+      <div class="pros-cons reveal">
+        <div class="pros-box">
+          <h3>✅ The Good</h3>
+          <div class="pro-item"><span>✓</span> World-class skiing & hiking 30–45 min from downtown</div>
+          <div class="pro-item"><span>✓</span> Booming tech job market (Silicon Slopes) with competitive salaries</div>
+          <div class="pro-item"><span>✓</span> More affordable than comparable western cities</div>
+          <div class="pro-item"><span>✓</span> 222+ sunny days per year</div>
+          <div class="pro-item"><span>✓</span> Low unemployment (~2.5%) and strong economy</div>
+          <div class="pro-item"><span>✓</span> Growing food, arts, and nightlife scene</div>
+          <div class="pro-item"><span>✓</span> Very safe city overall with low violent crime</div>
+          <div class="pro-item"><span>✓</span> Excellent healthcare (Intermountain Health)</div>
+          <div class="pro-item"><span>✓</span> Great for outdoor families — hiking, camping, skiing</div>
+          <div class="pro-item"><span>✓</span> Day-trip distance to 5 national parks</div>
+        </div>
+        <div class="cons-box">
+          <h3>⚠️ The Challenges</h3>
+          <div class="con-item"><span>✗</span> Winter air inversions — 10–20 days of bad air quality per year</div>
+          <div class="con-item"><span>✗</span> Great Salt Lake shrinking — ongoing environmental concern</div>
+          <div class="con-item"><span>✗</span> Housing prices have risen 60%+ in 5 years</div>
+          <div class="con-item"><span>✗</span> Car-dependent outside urban core</div>
+          <div class="con-item"><span>✗</span> Conservative state politics (even if city is progressive)</div>
+          <div class="con-item"><span>✗</span> Alcohol laws take some adjustment</div>
+          <div class="con-item"><span>✗</span> LDS culture can feel overwhelming to some newcomers</div>
+          <div class="con-item"><span>✗</span> Summers getting hotter (95°F+ July–Aug)</div>
+          <div class="con-item"><span>✗</span> Valley traffic growing as population booms</div>
+          <div class="con-item"><span>✗</span> Relatively limited nightlife compared to larger metros</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Utilities & Setup -->
+    <div style="margin-bottom: 4rem;">
+      <div class="section-header reveal" style="text-align:left;">
+        <div class="section-tag">Getting Set Up</div>
+        <h2>Setting Up Your New Home</h2>
+      </div>
+      <div class="grid-3 reveal">
+        <div class="info-card">
+          <h3>⚡ Utilities</h3>
+          <div class="stat-row"><span class="key">Electric</span><span class="val">Rocky Mountain Power</span></div>
+          <div class="stat-row"><span class="key">Natural Gas</span><span class="val">Questar Gas / Dominion</span></div>
+          <div class="stat-row"><span class="key">Water</span><span class="val">Salt Lake City Public</span></div>
+          <div class="stat-row"><span class="key">Avg Electricity</span><span class="val">$80–$130/mo</span></div>
+          <div class="stat-row"><span class="key">Avg Gas (winter)</span><span class="val">$60–$120/mo</span></div>
+        </div>
+        <div class="info-card">
+          <h3>🌐 Internet Providers</h3>
+          <div class="stat-row"><span class="key">Xfinity (Comcast)</span><span class="val">Most widely available</span></div>
+          <div class="stat-row"><span class="key">Centurylink / Lumen</span><span class="val">DSL + fiber select areas</span></div>
+          <div class="stat-row"><span class="key">Google Fiber</span><span class="val">Select neighborhoods</span></div>
+          <div class="stat-row"><span class="key">Vivint SmartHome</span><span class="val">Local provider option</span></div>
+          <div class="stat-row"><span class="key">Typical Speed</span><span class="val">400–1000 Mbps</span></div>
+          <div class="stat-row"><span class="key">Monthly Cost</span><span class="val">$50–$90</span></div>
+        </div>
+        <div class="info-card">
+          <h3>🪹 Utah Requirements</h3>
+          <div class="stat-row"><span class="key">Driver's License</span><span class="val">60 days to transfer</span></div>
+          <div class="stat-row"><span class="key">Vehicle Registration</span><span class="val">60 days to register</span></div>
+          <div class="stat-row"><span class="key">DMV</span><span class="val">Utah Driver License Div.</span></div>
+          <div class="stat-row"><span class="key">Vehicle Emissions</span><span class="val">Required annually</span></div>
+          <div class="stat-row"><span class="key">Voter Registration</span><span class="val">Online at vote.utah.gov</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Moving Checklist -->
+    <div>
+      <div class="section-header reveal" style="text-align:left;">
+        <div class="section-tag">Checklist</div>
+        <h2>Your SLC Moving Checklist</h2>
+        <p style="color:var(--gray-500);">Check things off as you go — saved automatically in your browser.</p>
+      </div>
+      <div class="grid-2 reveal">
+        <div>
+          <h4 style="font-family:var(--font-sans); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray-400); margin-bottom:0.75rem;">Before You Move</h4>
+          <div class="checklist" id="checklist-before">
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Research neighborhoods — visit if possible</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Secure housing (apartment or home purchase)</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Book moving company (book 4–6 weeks out)</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Transfer or find new health insurance</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Notify employer / line up remote or new job</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Research schools if you have kids</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Update address with USPS (mail forwarding)</label>
+          </div>
+        </div>
+        <div>
+          <h4 style="font-family:var(--font-sans); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray-400); margin-bottom:0.75rem;">After You Arrive</h4>
+          <div class="checklist" id="checklist-after">
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Set up utilities: Rocky Mountain Power, Questar Gas</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Set up internet (Xfinity, Google Fiber, etc.)</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Get Utah driver's license (within 60 days)</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Register vehicle in Utah (within 60 days)</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Register to vote at vote.utah.gov</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Find a local doctor / dentist</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Buy a ski pass before November (early-bird pricing!)</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Explore your neighborhood on foot</label>
+            <label class="check-item"><input type="checkbox" onchange="saveChecks()"> Try Red Iguana (trust us)</label>
+          </div>
         </div>
       </div>
     </div>
@@ -402,13 +499,27 @@
   </div>
 </section>
 
+<!-- CTA -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="highlight-box reveal">
+      <h2>Ready to Explore Your Future Home?</h2>
+      <p>Browse neighborhoods, check the interactive map for crime rates and rent data, and discover why so many people are choosing Salt Lake City.</p>
+      <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+        <a href="neighborhoods.html" class="btn btn-primary btn-lg">Explore Neighborhoods</a>
+        <a href="map.html" class="btn btn-outline btn-lg">View Data Map</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
-      <div class="footer-brand"><div class="logo"><div class="icon">🏔️</div> SLC Explorer</div><p>Everything you need to plan the perfect SLC trip.</p></div>
-      <div class="footer-col"><h4>Explore</h4><ul><li><a href="explore.html">Things To Do</a></li><li><a href="outdoors.html">Outdoors</a></li><li><a href="food.html">Food & Drink</a></li></ul></div>
-      <div class="footer-col"><h4>Plan</h4><ul><li><a href="plan.html">Getting Here</a></li><li><a href="map.html">Interactive Map</a></li><li><a href="events.html">Events</a></li></ul></div>
-      <div class="footer-col"><h4>Quick</h4><ul><li><a href="neighborhoods.html">Neighborhoods</a></li><li><a href="index.html">Home</a></li></ul></div>
+      <div class="footer-brand"><div class="logo"><div class="icon">🏔️</div> SLC Explorer</div><p>Your guide to living in Salt Lake City.</p></div>
+      <div class="footer-col"><h4>Explore</h4><ul><li><a href="explore.html">Things To Do</a></li><li><a href="outdoors.html">Outdoors</a></li><li><a href="neighborhoods.html">Neighborhoods</a></li><li><a href="food.html">Food & Drink</a></li></ul></div>
+      <div class="footer-col"><h4>Move Here</h4><ul><li><a href="plan.html">Cost of Living</a></li><li><a href="plan.html">Job Market</a></li><li><a href="map.html">Neighborhood Map</a></li></ul></div>
+      <div class="footer-col"><h4>Quick</h4><ul><li><a href="events.html">Events</a></li><li><a href="map.html">Map</a></li><li><a href="index.html">Home</a></li></ul></div>
     </div>
     <div class="footer-bottom"><p>© 2026 SLC Explorer</p></div>
   </div>
@@ -417,5 +528,24 @@
 <button id="back-top" title="Back to top"><i class="fas fa-arrow-up"></i></button>
 <div class="toast-container"></div>
 <script src="script.js"></script>
+<script>
+  function saveChecks() {
+    const checks = [...document.querySelectorAll('.check-item input')].map(i => i.checked);
+    localStorage.setItem('slc_checklist', JSON.stringify(checks));
+    document.querySelectorAll('.check-item').forEach((item, i) => {
+      item.classList.toggle('done', checks[i]);
+    });
+  }
+  function loadChecks() {
+    try {
+      const checks = JSON.parse(localStorage.getItem('slc_checklist')) || [];
+      document.querySelectorAll('.check-item input').forEach((input, i) => {
+        input.checked = checks[i] || false;
+        input.closest('.check-item').classList.toggle('done', checks[i]);
+      });
+    } catch(e) {}
+  }
+  document.addEventListener('DOMContentLoaded', loadChecks);
+</script>
 </body>
 </html>
